@@ -3,46 +3,44 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Password Page</title>
+<title>Password Protected Page</title>
 <style>
-  body {
-    font-family: Arial, sans-serif;
-  }
-  form {
-    margin: 100px auto;
-    width: 300px;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background-color: #f9f9f9;
-  }
-  input[type="password"],
-  input[type="submit"] {
-    width: 100%;
-    padding: 10px;
-    margin: 5px 0;
-    display: inline-block;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
-  }
-  input[type="submit"] {
-    background-color: #4CAF50;
-    color: white;
-    cursor: pointer;
-  }
-  input[type="submit"]:hover {
-    background-color: #45a049;
-  }
+    body {
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #f0f0f0;
+    }
+    img {
+        max-width: 100%;
+        max-height: 100%;
+    }
 </style>
 </head>
 <body>
 
-<form action="main_page.HTML" method="post">
-  <label for="password">Enter Password:</label>
-  <input type="password" id="password" name="password" required>
-  <input type="submit" value="Submit">
-</form>
+<script>
+    function checkPassword() {
+        var password = prompt("Please enter the password:");
+
+        // Check if the password is correct
+        if (password === "your_password") {
+            // Redirect to the next page
+            window.location.href = "next_page.html"; // Replace "next_page.html" with the URL of your next page
+        } else {
+            alert("Incorrect password. Please try again.");
+        }
+    }
+</script>
+
+<div>
+    <img src="your_image.jpg" alt="Centered Image">
+</div>
+
+<button onclick="checkPassword()">Enter Password to Access Next Page</button>
 
 </body>
 </html>
