@@ -4,6 +4,7 @@
   height: 90px;
   position: relative;
   animation: beatHeart 1s infinite alternate;
+  z-index: 2; /* Set the z-index higher than the image */
 }
 
 /* Heart shape */
