@@ -1,36 +1,66 @@
 /* Styles for the heart */
-.heart {
-  width: 100px;
-  height: 90px;
-  position: relative;
-  animation: beatHeart 1s infinite alternate;
-  z-index: 2; /* Set the z-index higher than the image */
+.heart-left,
+.heart-right {
+  width: 200px; /* Increase the size to cover the screen */
+  height: 180px; /* Increase the size to cover the screen */
+  position: fixed; /* Position the hearts relative to the viewport */
+  top: 0; /* Position the hearts at the top of the viewport */
+  z-index: 2; /* Set the z-index higher than other content */
 }
 
-/* Heart shape */
-.heart:before,
-.heart:after {
+/* Left Heart shape */
+.heart-left:before,
+.heart-left:after {
   content: "";
   position: absolute;
-  top: 0;
-  left: 50px;
+  top: 50%;
+  left: 50%;
   width: 50px;
   height: 80px;
   background-color: red;
   border-radius: 50px 50px 0 0;
-  transform: rotate(-45deg);
+  transform: translate(-50%, -50%) rotateY(45deg); /* Rotate horizontally */
   transform-origin: 0 100%;
 }
 
-.heart:after {
-  left: 0;
-  transform: rotate(45deg);
+.heart-left:after {
+  left: -50%;
   transform-origin: 100% 100%;
 }
 
-/* Animation */
+/* Right Heart shape */
+.heart-right:before,
+.heart-right:after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 50px;
+  height: 80px;
+  background-color: red;
+  border-radius: 50px 50px 0 0;
+  transform: translate(-50%, -50%) rotateY(-45deg); /* Rotate horizontally */
+  transform-origin: 0 100%;
+}
+
+.heart-right:after {
+  left: -50%;
+  transform-origin: 100% 100%;
+}
+
+/* Animation for heartbeat */
 @keyframes beatHeart {
   to {
     transform: scale(1.1);
+  }
+}
+
+/* Animation for rotation */
+@keyframes rotateHeart {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
   }
 }
