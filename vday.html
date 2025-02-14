@@ -16,6 +16,7 @@
             align-items: center;
             height: 100vh;
             text-align: center;
+            overflow: hidden; /* Hide falling images outside the screen */
         }
 
         .container {
@@ -55,6 +56,27 @@
         .button:hover {
             background-color: #C7A1B3; /* Slightly darker shade on hover */
         }
+
+        .falling-image {
+            position: absolute;
+            top: -50px;
+            width: 50px;
+            height: 50px;
+            opacity: 0.8;
+            animation: fall 10s linear infinite;
+        }
+
+        @keyframes fall {
+            0% {
+                top: -50px;
+                opacity: 1;
+            }
+            100% {
+                top: 100vh;
+                opacity: 0;
+            }
+        }
+
     </style>
 </head>
 <body>
@@ -64,8 +86,36 @@
         <div class="message">
             <p>Hey baby, happy valentines day. I know last year I didn't really do much for valentines day, because one day isn't enough for me to love you, but I still want to make you feel special. I know you're going through a lot and I see how hard you're working. I know it's overwhelming and tiring, yet you still do what you need to get done. I'm forever proud of you, now and forever. I love you and I find myself still falling for you. I wanted to give you something in person and to be honest I was a little busy so I couldn't get to it, but I was working on something else for you too. You'll see it on the next page. I'm so proud of you and I love you, I'm gonna keep doing everything I can to be the best husband and father I could possibly be and give you and our family the life you guys deserve. I'm still gonna surprise you with something, but I wanted to give you something now.</p>
         </div>
-        <a href="main_page.html" class="button">Next Surprise</a>
+        <a href="nextpage.html" class="button">You might find this corny but I tried speaking from the soul my love</a>
     </div>
+
+    <!-- JavaScript to create falling images -->
+    <script>
+        // List of image URLs you want to fall (Replace with actual URLs of your uploaded images)
+        const imageURLs = [
+            'IMG_6601.png', // Replace with your image URLs
+            'IMG_6610.png', // Replace with your image URLs
+            'IMG_6603png'  // Replace with your image URLs
+        ];
+
+        // Function to create falling images
+        function createFallingImages() {
+            for (let i = 0; i < 20; i++) { // You can change the number to control how many images fall
+                const img = document.createElement('img');
+                img.src = imageURLs[Math.floor(Math.random() * imageURLs.length)]; // Randomly pick an image
+                img.classList.add('falling-image');
+                
+                // Set random starting positions and animation durations
+                img.style.left = Math.random() * 100 + '%'; // Random horizontal position
+                img.style.animationDuration = Math.random() * 10 + 5 + 's'; // Random animation speed
+
+                document.body.appendChild(img);
+            }
+        }
+
+        // Create falling images when the page loads
+        window.addEventListener('load', createFallingImages);
+    </script>
 
 </body>
 </html>
