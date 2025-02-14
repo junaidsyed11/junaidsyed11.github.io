@@ -9,7 +9,7 @@
     <style>
         body {
             font-family: 'Almarai', sans-serif;
-            background-color: #f0f1f3;
+            background-color: #F2E1D6; /* Creamy Rose background */
             margin: 0;
             padding: 0;
             display: flex;
@@ -19,29 +19,31 @@
             background-image: url('https://images.unsplash.com/photo-1444725008324-9202f617d85e?crop=entropy&cs=tinysrgb&fit=max&ixid=MnwzNjUyOXwwfDF8c2VhcmNofDJ8fG1vb25saWdodHxlbnwwfDB8fHwxNjg2MDM5NTQ1&ixlib=rb-1.2.1&q=80&w=1080');
             background-size: cover;
             background-position: center;
+            overflow: hidden;
         }
 
         .container {
-            background-color: rgba(255, 255, 255, 0.8);
+            background-color: rgba(255, 255, 255, 0.9);
             padding: 30px 50px;
             border-radius: 15px;
             max-width: 800px;
             width: 100%;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
             text-align: center;
+            z-index: 2;
         }
 
         h1 {
             font-family: 'Zilla Slab', serif;
             font-size: 36px;
             margin-bottom: 20px;
-            color: #3E3B3D;
+            color: #B55D50; /* Brick red color */
         }
 
         .poem {
             font-size: 22px;
             line-height: 1.8;
-            color: #3E3B3D;
+            color: #B55D50; /* Brick red text */
             direction: rtl;
             text-align: right;
             font-weight: bold;
@@ -51,30 +53,40 @@
             display: block;
             margin: 15px 0;
             font-size: 24px;
-            color: #2C3E50;
+            color: #B55D50;
         }
 
         .footer {
             font-family: 'Zilla Slab', serif;
             font-size: 18px;
             margin-top: 20px;
-            color: #2C3E50;
+            color: #B55D50;
             text-align: center;
         }
 
-        @media (max-width: 768px) {
-            .container {
-                padding: 20px;
-            }
+        .petal {
+            position: absolute;
+            top: -10%;
+            width: 20px;
+            height: 20px;
+            background-image: url('https://www.pngkey.com/png/full/136-1364592_rose-petal-pink-rose-petals-png.png');
+            background-size: cover;
+            animation: fall 5s linear infinite;
+        }
 
-            h1 {
-                font-size: 30px;
+        @keyframes fall {
+            0% {
+                top: -10%;
+                opacity: 1;
+                transform: rotate(0deg);
             }
-
-            .poem {
-                font-size: 20px;
+            100% {
+                top: 100%;
+                opacity: 0;
+                transform: rotate(360deg);
             }
         }
+
     </style>
 </head>
 <body>
@@ -103,6 +115,22 @@
             <p>Poem by: Your Name</p>
         </div>
     </div>
+
+    <script>
+        // Create falling rose petals
+        function createPetals() {
+            for (let i = 0; i < 50; i++) {
+                let petal = document.createElement('div');
+                petal.classList.add('petal');
+                petal.style.left = Math.random() * 100 + '%'; // Random horizontal position
+                petal.style.animationDuration = Math.random() * 5 + 5 + 's'; // Random animation duration
+                document.body.appendChild(petal);
+            }
+        }
+
+        // Call the function to create petals when page loads
+        window.onload = createPetals;
+    </script>
 
 </body>
 </html>
