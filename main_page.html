@@ -5,10 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>چاند سے باتیں - Conversations with the Moon</title>
-    <link href="https://fonts.googleapis.com/css2?family=Almarai&family=Zilla+Slab&display=swap" rel="stylesheet">
+    <!-- Using Noto Nastaliq Urdu font for better readability -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: 'Almarai', sans-serif;
+            font-family: 'Noto Nastaliq Urdu', serif;
             background-color: #F2E1D6; /* Creamy Rose background */
             margin: 0;
             padding: 0;
@@ -34,7 +35,7 @@
         }
 
         h1 {
-            font-family: 'Zilla Slab', serif;
+            font-family: 'Noto Nastaliq Urdu', serif;
             font-size: 36px;
             margin-bottom: 20px;
             color: #B55D50; /* Brick red color */
@@ -57,34 +58,11 @@
         }
 
         .footer {
-            font-family: 'Zilla Slab', serif;
+            font-family: 'Noto Nastaliq Urdu', serif;
             font-size: 18px;
             margin-top: 20px;
             color: #B55D50;
             text-align: center;
-        }
-
-        .petal {
-            position: absolute;
-            top: -10%;
-            width: 20px;
-            height: 20px;
-            background-image: url('https://www.pngkey.com/png/full/136-1364592_rose-petal-pink-rose-petals-png.png');
-            background-size: cover;
-            animation: fall 5s linear infinite;
-        }
-
-        @keyframes fall {
-            0% {
-                top: -10%;
-                opacity: 1;
-                transform: rotate(0deg);
-            }
-            100% {
-                top: 100%;
-                opacity: 0;
-                transform: rotate(360deg);
-            }
         }
 
     </style>
@@ -112,25 +90,9 @@
             <span>تیرے بغیر ہر لمحہ ایک تڑپتی رات ہے</span>
         </div>
         <div class="footer">
-            <p>Poem by: Your Name</p>
+            <p>J'adore mon Uroosa</p>
         </div>
     </div>
-
-    <script>
-        // Create falling rose petals
-        function createPetals() {
-            for (let i = 0; i < 50; i++) {
-                let petal = document.createElement('div');
-                petal.classList.add('petal');
-                petal.style.left = Math.random() * 100 + '%'; // Random horizontal position
-                petal.style.animationDuration = Math.random() * 5 + 5 + 's'; // Random animation duration
-                document.body.appendChild(petal);
-            }
-        }
-
-        // Call the function to create petals when page loads
-        window.addEventListener('load', createPetals); // Use event listener to trigger after full page load
-    </script>
 
 </body>
 </html>
