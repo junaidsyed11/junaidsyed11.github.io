@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Centered Image with Next Page Button</title>
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #F5BFEF;
+    }
+    #image-container {
+        text-align: center;
+    }
+    #next-page-button {
+        margin-top: 20px;
+        padding: 10px 20px;
+        background-color: #BFF2F5;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+</style>
+<link rel="stylesheet" href="styles.css"> <!-- Link to an external stylesheet -->    
+</head>
+<body>
+<div class="heart"></div>
+<!-- Add the heart element here -->
+<div id="image-container">
+    <img src="IMG_6612.PNG" alt="Centered Image" style="width: 70%; height: auto;">
+</div>
+
+<button id="next-page-button" onclick="goToNextPage()">Us <3</button>
+
+<script>
+    function goToNextPage() {
+        // Redirect to the next page
+        window.location.href = "sweet.html"; // Replace "next_page.html" with the URL of your next page
+    }
+</script>
+
+</body>
+</html>
