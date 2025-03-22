@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Birthday Card</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-top: 50px;
+            color: #ff7f7f;
+        }
+
+        .container {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+        }
+
+        .slideshow-container {
+            position: relative;
+            width: 80%;
+            margin: auto;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .mySlides {
+            display: none;
+        }
+
+        .mySlides img {
+            width: 100%;
+            height: auto;
+            border-radius: 15px;
+        }
+
+        .text {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 1.5rem;
+            color: white;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+        }
+
+        .fade {
+            animation-name: fade;
+            animation-duration: 2s;
+            animation-timing-function: ease-in-out;
+        }
+
+        @keyframes fade {
+            0% { opacity: 0; }
+            50% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+
+        /* Confetti CSS */
+        @keyframes fall {
+            0% {
+                top: -20px;
+                opacity: 1;
+                transform: rotate(0deg);
+            }
+            100% {
+                top: 100vh;
+                opacity: 0;
+                transform: rotate(360deg);
+            }
+        }
+
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: red;
+            animation: fall 5s linear infinite;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Happy Birthday!</h1>
+        <div class="slideshow-container">
+            <div class="mySlides fade">
+                <img src="https://via.placeholder.com/600x400/ff7f7f/333333?text=Birthday+Cake" alt="Birthday Cake">
+                <div class="text">Birthday Cake</div>
+            </div>
+            <div class="mySlides fade">
+                <img src="https://via.placeholder.com/600x400/ffdf7f/333333?text=Party+Time" alt="Party Time">
+                <div class="text">Party Time</div>
+            </div>
+            <div class="mySlides fade">
+                <img src="https://via.placeholder.com/600x400/7fffd4/333333?text=Celebration" alt="Celebration">
+                <div class="text">Celebration</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let slideIndex = 0;
+        showSlides();
+
+        function showSlides() {
+            let slides = document.getElementsByClassName("mySlides");
+            for (let i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";
+            }
+            slideIndex++;
+            if (slideIndex > slides.length) { slideIndex = 1; }
+            slides[slideIndex - 1].style.display = "block";
+            setTimeout(showSlides, 3000); // Change image every 3 seconds
+        }
+
+        // Confetti effect
+        (function() {
+            var confettiColors = ['#ff7f7f', '#ffdf7f', '#7fffd4', '#f79c42', '#ffb3b3'];
+            var confettiCount = 100;
+            var confettiSpeed = 2;
+
+            function createConfetti() {
+                var confetti = document.createElement('div');
+                confetti.classList.add('confetti');
+                document.body.appendChild(confetti);
+                var x = Math.random() * window.innerWidth;
+                var y = -20;
+                var size = Math.random() * 10 + 5;
+                var color = confettiColors[Math.floor(Math.random() * confettiColors.length)];
+                var animationDuration = Math.random() * 5 + 5;
+                var animationDelay = Math.random() * 2;
+
+                confetti.style.width = size + 'px';
+                confetti.style.height = size + 'px';
+                confetti.style.backgroundColor = color;
+                confetti.style.position = 'absolute';
+                confetti.style.top = y + 'px';
+                confetti.style.left = x + 'px';
+                confetti.style.borderRadius = '50%';
+                confetti.style.animation = `fall ${animationDuration}s linear ${animationDelay}s infinite`;
+
+                setTimeout(() => {
+                    confetti.remove();
+                }, animationDuration * 1000);
+            }
+
+            setInterval(createConfetti, confettiSpeed);
+        })();
+    </script>
+</body>
+</html>
