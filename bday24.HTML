@@ -12,7 +12,7 @@
         }
 
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Lucida Handwriting', 'Segoe Script', 'Cursive', sans-serif;
             background-color: #f0f0f0;
             text-align: center;
             overflow: hidden;
@@ -154,22 +154,30 @@
         let slideIndex = 0;
         showSlides();
 
-        function showSlides() {
-            let slides = document.getElementsByClassName("mySlides");
-            for (let i = 0; i < slides.length; i++) {
-                slides[i].style.display = "none";
-            }
-            slideIndex++;
-            if (slideIndex > slides.length) { slideIndex = 1; }
-            slides[slideIndex - 1].style.display = "block";
-            setTimeout(showSlides, 3000); // Change image every 3 seconds
+    function showSlides() {
+        let slides = document.getElementsByClassName("mySlides");
+    
+        // Hide all slides
+        for (let i = 0; i < slides.length; i++) {
+            slides[i].style.display = "none";
         }
+    
+        // Increment the slide index
+        slideIndex++;
+        if (slideIndex > slides.length) { slideIndex = 1; }
+    
+        // Show the current slide
+        slides[slideIndex - 1].style.display = "block";
+    
+        // Change image every 4 seconds
+        setTimeout(showSlides, 4000); // 4000 milliseconds = 4 seconds
+    }
 
         // Confetti effect
         (function() {
             var confettiColors = ['#ff7f7f', '#ffdf7f', '#7fffd4', '#f79c42', '#ffb3b3'];
-            var confettiCount = 100;
-            var confettiSpeed = 2;
+            var confettiCount = 50;
+            var confettiSpeed = 1;
 
             function createConfetti() {
                 var confetti = document.createElement('div');
