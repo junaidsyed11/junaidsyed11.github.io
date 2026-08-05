@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>What is RAG and How It Can Help Your Organization, Junaid Syed</title>
+<meta name="description" content="A plain-language breakdown of Retrieval Augmented Generation and why it matters for your business.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="grain"></div>
+
+<header class="nav">
+ <a href="index.html" class="wordmark">JS<span class="dot">.</span></a>
+ <nav class="nav-links">
+ <a href="index.html#log">The Log</a>
+ <a href="index.html#contact">Contact</a>
+ </nav>
+</header>
+
+<main id="top">
+ <article class="article">
+ <p class="eyebrow">§ The Log &middot; Explainer</p>
+ <h1 class="article-title">What is RAG and How It Can Help Your Organization</h1>
+ <time class="post-date">August 5, 2026</time>
+
+ <div class="article-body">
+
+ <p>You have likely heard the term Retrieval Augmented Generation (commonly abbreviated as RAG) but may be unsure what it actually means in the context of large language models and broader AI. This post breaks it down.</p>
+
+ <p>RAG is a technique that combines a language model with an external knowledge source to produce more accurate, relevant, and up-to-date answers.</p>
+
+ <div class="diagram-wrap">
+ <svg class="rag-diagram" viewBox="0 0 900 190" xmlns="http://www.w3.org/2000/svg" aria-label="RAG system flow diagram">
+
+ <!-- USER QUERY -->
+ <rect x="10" y="70" width="120" height="50" rx="4" fill="#EEE0BC" stroke="#8C7A52" stroke-width="1.5"/>
+ <text x="70" y="88" text-anchor="middle" dominant-baseline="middle" fill="#6B5E47" font-family="'JetBrains Mono',monospace" font-size="8.5" letter-spacing="1.5">USER</text>
+ <text x="70" y="105" text-anchor="middle" dominant-baseline="middle" fill="#2A2117" font-family="'JetBrains Mono',monospace" font-size="8.5" font-weight="500" letter-spacing="1.5">QUERY</text>
+
+ <!-- Arrow 1 -->
+ <line x1="130" y1="95" x2="180" y2="95" stroke="#8C7A52" stroke-width="1.5"/>
+ <polygon points="176,90 187,95 176,100" fill="#8C7A52"/>
+
+ <!-- KNOWLEDGE BASE box -->
+ <rect x="187" y="25" width="188" height="140" rx="4" fill="#EEE0BC" stroke="#8C7A52" stroke-width="1.5"/>
+ <!-- Header -->
+ <text x="281" y="50" text-anchor="middle" dominant-baseline="middle" fill="#B8391F" font-family="'JetBrains Mono',monospace" font-size="8.5" font-weight="500" letter-spacing="1">01 · RETRIEVE</text>
+ <line x1="203" y1="67" x2="359" y2="67" stroke="#8C7A52" stroke-width="0.75" opacity="0.4"/>
+ <!-- Content -->
+ <text x="281" y="112" text-anchor="middle" dominant-baseline="middle" fill="#2A2117" font-family="'Instrument Serif',serif" font-size="15" font-style="italic">Knowledge Base</text>
+ <text x="281" y="140" text-anchor="middle" dominant-baseline="middle" fill="#6B5E47" font-family="'JetBrains Mono',monospace" font-size="8" letter-spacing="0.3">vector search · embeddings</text>
+
+ <!-- Arrow 2 -->
+ <line x1="375" y1="95" x2="468" y2="95" stroke="#8C7A52" stroke-width="1.5"/>
+ <polygon points="464,90 475,95 464,100" fill="#8C7A52"/>
+ <!-- Label on white background so it never overlaps -->
+ <rect x="383" y="78" width="85" height="14" fill="#F2E7C9"/>
+ <text x="425" y="85" text-anchor="middle" dominant-baseline="middle" fill="#6B5E47" font-family="'JetBrains Mono',monospace" font-size="7.5" letter-spacing="0.3">query + context</text>
+
+ <!-- LANGUAGE MODEL box -->
+ <rect x="475" y="25" width="188" height="140" rx="4" fill="#EEE0BC" stroke="#8C7A52" stroke-width="1.5"/>
+ <!-- Header — two lines, same divider height as KB -->
+ <text x="569" y="41" text-anchor="middle" dominant-baseline="middle" fill="#B8391F" font-family="'JetBrains Mono',monospace" font-size="8.5" font-weight="500" letter-spacing="1">02 · AUGMENT</text>
+ <text x="569" y="58" text-anchor="middle" dominant-baseline="middle" fill="#B8391F" font-family="'JetBrains Mono',monospace" font-size="8.5" font-weight="500" letter-spacing="1">03 · GENERATE</text>
+ <line x1="491" y1="72" x2="647" y2="72" stroke="#8C7A52" stroke-width="0.75" opacity="0.4"/>
+ <!-- Content -->
+ <text x="569" y="112" text-anchor="middle" dominant-baseline="middle" fill="#2A2117" font-family="'Instrument Serif',serif" font-size="15" font-style="italic">Language Model</text>
+ <text x="569" y="140" text-anchor="middle" dominant-baseline="middle" fill="#6B5E47" font-family="'JetBrains Mono',monospace" font-size="8" letter-spacing="0.3">grounded answer</text>
+
+ <!-- Arrow 3 -->
+ <line x1="663" y1="95" x2="748" y2="95" stroke="#8C7A52" stroke-width="1.5"/>
+ <polygon points="744,90 755,95 744,100" fill="#8C7A52"/>
+
+ <!-- ANSWER -->
+ <rect x="755" y="70" width="135" height="50" rx="4" fill="#B8391F"/>
+ <text x="822" y="88" text-anchor="middle" dominant-baseline="middle" fill="#F2E7C9" font-family="'JetBrains Mono',monospace" font-size="8.5" letter-spacing="1.5">GROUNDED</text>
+ <text x="822" y="105" text-anchor="middle" dominant-baseline="middle" fill="#F2E7C9" font-family="'JetBrains Mono',monospace" font-size="8.5" font-weight="500" letter-spacing="1.5">ANSWER</text>
+
+ </svg>
+ </div>
+
+ <h2>How It Works</h2>
+
+ <p>At a high level, RAG operates in three steps:</p>
+
+ <div class="step-list">
+ <div class="step">
+ <span class="step-num">01</span>
+ <div>
+ <strong>Retrieve</strong>
+ <p>When a user's prompt comes in, the system searches through a knowledge base (typically a vector database or document store) for information relevant to that prompt, using embeddings and vector search.</p>
+ </div>
+ </div>
+ <div class="step">
+ <span class="step-num">02</span>
+ <div>
+ <strong>Augment</strong>
+ <p>The relevant content that was retrieved is inserted into the prompt as additional context.</p>
+ </div>
+ </div>
+ <div class="step">
+ <span class="step-num">03</span>
+ <div>
+ <strong>Generate</strong>
+ <p>The language model generates an answer by drawing on both its own knowledge and the retrieved context, allowing responses to be specific to your business needs.</p>
+ </div>
+ </div>
+ </div>
+
+ <h2>The Benefits</h2>
+
+ <div class="benefit-list">
+ <div class="benefit">
+ <strong>Domain Specific Knowledge</strong>
+ <p>You can build the RAG system on top of your organization's own documents, databases, and business processes. The result is output that is aligned, relevant, and accurate to your context.</p>
+ </div>
+ <div class="benefit">
+ <strong>Citable Answers</strong>
+ <p>Since the system draws from your custom knowledge base, you can show your sources. This also makes evaluation easier, because you can validate that the model is referencing the correct context for a given prompt.</p>
+ </div>
+ <div class="benefit">
+ <strong>Always Current</strong>
+ <p>As you refresh your knowledge base, the language model always has access to the most up-to-date data, eliminating the need to retrain the model each time something changes.</p>
+ </div>
+ <div class="benefit">
+ <strong>Reduced Hallucinations</strong>
+ <p>The model grounds its answers in retrieved context rather than guessing, significantly reducing fabricated or inaccurate responses.</p>
+ </div>
+ </div>
+
+ <h2>An Example</h2>
+
+ <p>Say you asked your internal knowledge management system: <em>"What was our Engineering Change Request turnaround time for July?"</em></p>
+
+ <div class="example-block">
+ <div class="example-case">
+ <span class="example-label">Without RAG</span>
+ <p>The model has no access to your internal data. It would either guess or decline to answer.</p>
+ </div>
+ <div class="example-case">
+ <span class="example-label">With RAG</span>
+ <p>The system searches your internal knowledge base, locates the relevant project records or reports from July, and passes that data as context to the language model. The model then synthesizes an accurate answer, something like: <em>"The average ECR turnaround time in July was 11.3 days, down from 14.1 days in June."</em> That answer is grounded in your actual data, not a guess. You can trace it back to the source document it came from.</p>
+ </div>
+ </div>
+
+ <h2>Where RAG Falls Short</h2>
+
+ <p>RAG is not a silver bullet. The system is only as good as the knowledge base behind it. If your documents are outdated, poorly structured, or incomplete, the retrieved context will reflect that and so will the answers. It also requires ongoing maintenance. As your data changes, your knowledge base needs to keep pace. And for questions that fall entirely outside the scope of what you have indexed, the model may still struggle to give a reliable answer. Think of it less as a magic layer and more as a well organized research assistant: powerful when the library is well stocked, limited when it is not.</p>
+
+ <h2>The Bottom Line</h2>
+
+ <p>RAG gives a business a direct line of sight into its own data. Users can get on-demand insights by querying internal systems in plain language and receiving accurate, contextualized answers without needing to rely on analysts or wait for scheduled reports. The result is faster decision-making, broader data accessibility across the organization, and a knowledge layer that grows more valuable as your data does.</p>
+
+ <p>Stay tuned for further posts as I go deeper into the mechanics of RAG systems and walk through concrete examples of how they can be applied.</p>
+
+ </div>
+ </article>
+</main>
+
+<footer class="footer">
+ <span>&copy; 2026 Junaid Syed<span class="dot">.</span></span>
+ <span>Built in public from Mississauga.</span>
+</footer>
+
+</body>
+</html>
