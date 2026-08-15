@@ -196,7 +196,7 @@
 
         <!-- ═══ PIPELINE OVERVIEW DIAGRAM ═══ -->
         <div class="diagram-wrap">
-          <svg viewBox="0 0 920 372" width="920" height="372" xmlns="http://www.w3.org/2000/svg">
+          <svg viewBox="0 0 920 372" style="width:100%;height:auto;max-width:920px" xmlns="http://www.w3.org/2000/svg">
             <defs>
               <marker id="arr" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
                 <polygon points="0 0, 8 3, 0 6" fill="#8C7A52"/>
@@ -303,10 +303,10 @@
             <!-- Arrow Rerank → Claude -->
             <line x1="744" y1="277" x2="762" y2="277" stroke="#8C7A52" stroke-width="1.5" marker-end="url(#arr)"/>
 
-            <!-- Claude Sonnet -->
+            <!-- LLM -->
             <rect x="762" y="245" width="152" height="64" rx="6" fill="#EEE0BC" stroke="#B8391F" stroke-width="1.5"/>
             <rect x="762" y="245" width="152" height="5" rx="6" fill="#B8391F"/>
-            <text x="838" y="271" font-family="'JetBrains Mono',monospace" font-size="11" font-weight="700" fill="#2A2117" text-anchor="middle">Claude Sonnet</text>
+            <text x="838" y="271" font-family="'JetBrains Mono',monospace" font-size="11" font-weight="700" fill="#2A2117" text-anchor="middle">LLM</text>
             <text x="838" y="289" font-family="'Inter',sans-serif" font-size="10" fill="#6B5E47" text-anchor="middle">grounded answer</text>
           </svg>
         </div>
@@ -706,13 +706,13 @@ When referencing specific information, cite the document ID (e.g. "per NCR-2024-
             <rect x="830" y="220" width="200" height="150" rx="8" fill="#EEE0BC" stroke="#B8391F" stroke-width="1.5"/>
             <rect x="830" y="220" width="200" height="6" rx="8" fill="#B8391F"/>
             <text x="930" y="250" font-family="'JetBrains Mono',monospace" font-size="11" font-weight="700" fill="#2A2117" text-anchor="middle">Sparse Retrieval</text>
-            <line x1="848" y1="258" x2="1012" y2="258" stroke="#8C7A52" stroke-width="0.75"/>
-            <text x="848" y="275" font-family="'Inter',sans-serif" font-size="10.5" fill="#6B5E47">• BM25Okapi (rank-bm25)</text>
-            <text x="848" y="291" font-family="'Inter',sans-serif" font-size="10.5" fill="#6B5E47">• All chunks in memory</text>
-            <text x="848" y="307" font-family="'Inter',sans-serif" font-size="10.5" fill="#6B5E47">• TF · IDF · length norm</text>
-            <text x="848" y="323" font-family="'Inter',sans-serif" font-size="10.5" fill="#6B5E47">• Exact keyword match</text>
-            <text x="848" y="339" font-family="'Inter',sans-serif" font-size="10.5" fill="#6B5E47">• Top-20, score &gt; 0 only</text>
-            <text x="848" y="358" font-family="'JetBrains Mono',monospace" font-size="10" fill="#B8391F">→ 20 ranked results</text>
+            <line x1="850" y1="258" x2="1012" y2="258" stroke="#8C7A52" stroke-width="0.75"/>
+            <text x="850" y="275" font-family="'Inter',sans-serif" font-size="10.5" fill="#6B5E47">• BM25Okapi (rank-bm25)</text>
+            <text x="850" y="291" font-family="'Inter',sans-serif" font-size="10.5" fill="#6B5E47">• All chunks in memory</text>
+            <text x="850" y="307" font-family="'Inter',sans-serif" font-size="10.5" fill="#6B5E47">• TF · IDF · length norm</text>
+            <text x="850" y="323" font-family="'Inter',sans-serif" font-size="10.5" fill="#6B5E47">• Exact keyword match</text>
+            <text x="850" y="339" font-family="'Inter',sans-serif" font-size="10.5" fill="#6B5E47">• Top-20, score &gt; 0 only</text>
+            <text x="850" y="358" font-family="'JetBrains Mono',monospace" font-size="10" fill="#B8391F">→ 20 ranked results</text>
 
             <!-- Merge arrows to RRF -->
             <line x1="694" y1="370" x2="694" y2="396" stroke="#8C7A52" stroke-width="1.5"/>
@@ -725,10 +725,10 @@ When referencing specific information, cite the document ID (e.g. "per NCR-2024-
             <rect x="578" y="420" width="468" height="6" rx="8" fill="#B8391F"/>
             <text x="812" y="450" font-family="'JetBrains Mono',monospace" font-size="12" font-weight="700" fill="#2A2117" text-anchor="middle">⑤ RRF Fusion</text>
             <line x1="598" y1="458" x2="1026" y2="458" stroke="#8C7A52" stroke-width="0.75"/>
-            <text x="606" y="476" font-family="'Inter',sans-serif" font-size="11" fill="#6B5E47">• score(d) = Σ 1/(k + rank)  where k = 60</text>
-            <text x="606" y="493" font-family="'Inter',sans-serif" font-size="11" fill="#6B5E47">• Documents in both lists accumulate score from each</text>
-            <text x="606" y="510" font-family="'Inter',sans-serif" font-size="11" fill="#6B5E47">• Parameter-free — k=60 from Cormack et al. SIGIR 2009</text>
-            <text x="606" y="528" font-family="'JetBrains Mono',monospace" font-size="10" fill="#B8391F">→ Single merged list, top-20 passed to reranker</text>
+            <text x="598" y="476" font-family="'Inter',sans-serif" font-size="11" fill="#6B5E47">• score(d) = Σ 1/(k + rank)  where k = 60</text>
+            <text x="598" y="493" font-family="'Inter',sans-serif" font-size="11" fill="#6B5E47">• Documents in both lists accumulate score from each</text>
+            <text x="598" y="510" font-family="'Inter',sans-serif" font-size="11" fill="#6B5E47">• Parameter-free — k=60 from Cormack et al. SIGIR 2009</text>
+            <text x="598" y="528" font-family="'JetBrains Mono',monospace" font-size="10" fill="#B8391F">→ Single merged list, top-20 passed to reranker</text>
 
             <line x1="812" y1="542" x2="812" y2="564" stroke="#8C7A52" stroke-width="1.5" marker-end="url(#carr)"/>
 
@@ -737,22 +737,22 @@ When referencing specific information, cite the document ID (e.g. "per NCR-2024-
             <rect x="578" y="564" width="468" height="6" rx="8" fill="#B8391F"/>
             <text x="812" y="594" font-family="'JetBrains Mono',monospace" font-size="12" font-weight="700" fill="#2A2117" text-anchor="middle">⑥ Cohere Rerank v4</text>
             <line x1="598" y1="602" x2="1026" y2="602" stroke="#8C7A52" stroke-width="0.75"/>
-            <text x="606" y="620" font-family="'Inter',sans-serif" font-size="11" fill="#6B5E47">• Cross-encoder: reads query and each doc together in one pass</text>
-            <text x="606" y="637" font-family="'Inter',sans-serif" font-size="11" fill="#6B5E47">• More accurate than bi-encoder but too slow for full corpus</text>
-            <text x="606" y="654" font-family="'Inter',sans-serif" font-size="11" fill="#6B5E47">• Model: rerank-v4.0-fast · rerank_score added to each result</text>
-            <text x="606" y="672" font-family="'JetBrains Mono',monospace" font-size="10" fill="#B8391F">→ Top-5 final chunks with relevance scores</text>
+            <text x="598" y="620" font-family="'Inter',sans-serif" font-size="11" fill="#6B5E47">• Cross-encoder: reads query and each doc together in one pass</text>
+            <text x="598" y="637" font-family="'Inter',sans-serif" font-size="11" fill="#6B5E47">• More accurate than bi-encoder but too slow for full corpus</text>
+            <text x="598" y="654" font-family="'Inter',sans-serif" font-size="11" fill="#6B5E47">• Model: rerank-v4.0-fast · rerank_score added to each result</text>
+            <text x="598" y="672" font-family="'JetBrains Mono',monospace" font-size="10" fill="#B8391F">→ Top-5 final chunks with relevance scores</text>
 
             <line x1="812" y1="686" x2="812" y2="708" stroke="#8C7A52" stroke-width="1.5" marker-end="url(#carr)"/>
 
             <!-- Claude Generator -->
             <rect x="578" y="708" width="468" height="122" rx="8" fill="#EEE0BC" stroke="#B8391F" stroke-width="1.5"/>
             <rect x="578" y="708" width="468" height="6" rx="8" fill="#B8391F"/>
-            <text x="812" y="738" font-family="'JetBrains Mono',monospace" font-size="12" font-weight="700" fill="#2A2117" text-anchor="middle">⑦ Claude Sonnet via OpenRouter</text>
+            <text x="812" y="738" font-family="'JetBrains Mono',monospace" font-size="12" font-weight="700" fill="#2A2117" text-anchor="middle">⑦ LLM</text>
             <line x1="598" y1="746" x2="1026" y2="746" stroke="#8C7A52" stroke-width="0.75"/>
-            <text x="606" y="764" font-family="'Inter',sans-serif" font-size="11" fill="#6B5E47">• Receives top-5 chunks as numbered context [1]...[5]</text>
-            <text x="606" y="781" font-family="'Inter',sans-serif" font-size="11" fill="#6B5E47">• System prompt: answer ONLY from context, cite doc IDs</text>
-            <text x="606" y="798" font-family="'Inter',sans-serif" font-size="11" fill="#6B5E47">• No external knowledge — keeps evaluation honest</text>
-            <text x="606" y="818" font-family="'JetBrains Mono',monospace" font-size="10" fill="#B8391F">→ Grounded natural-language answer with citations</text>
+            <text x="598" y="764" font-family="'Inter',sans-serif" font-size="11" fill="#6B5E47">• Receives top-5 chunks as numbered context [1]...[5]</text>
+            <text x="598" y="781" font-family="'Inter',sans-serif" font-size="11" fill="#6B5E47">• System prompt: answer ONLY from context, cite doc IDs</text>
+            <text x="598" y="798" font-family="'Inter',sans-serif" font-size="11" fill="#6B5E47">• No external knowledge — keeps evaluation honest</text>
+            <text x="598" y="818" font-family="'JetBrains Mono',monospace" font-size="10" fill="#B8391F">→ Grounded natural-language answer with citations</text>
 
             <!-- Eval Harness -->
             <rect x="40" y="652" width="442" height="196" rx="8" fill="#E8D5A0" stroke="#B8391F" stroke-width="1.5" stroke-dasharray="5 3"/>
