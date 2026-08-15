@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A Glimpse of What Enterprise RAG Can Look Like · The Log</title>
+  <meta name="description" content="A deep dive into a hybrid RAG system built on aerospace manufacturing data — covering synthetic data generation, chunking, embedding, BM25, RRF, reranking, and evaluation.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .article-body h3 {
+      font-family: 'Instrument Serif', Georgia, serif;
+      font-style: italic;
+      font-weight: 400;
+      font-size: 1.25rem;
+      color: var(--ink);
+      margin: 40px 0 12px;
+    }
+
+    pre {
+      background: var(--card-bg);
+      border: 1px solid var(--line);
+      border-left: 3px solid var(--accent);
+      border-radius: 4px;
+      padding: 20px 24px;
+      overflow-x: auto;
+      margin: 20px 0 32px;
+      max-width: 72ch;
+    }
+
+    pre code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.82rem;
+      color: var(--ink);
+      background: none;
+      border: none;
+      padding: 0;
+    }
+
+    code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85em;
+      background: var(--card-bg);
+      border: 1px solid var(--line);
+      border-radius: 3px;
+      padding: 1px 5px;
+      color: var(--ink);
+    }
+
+    .data-table {
+      width: 100%;
+      max-width: 72ch;
+      border-collapse: collapse;
+      margin: 20px 0 32px;
+      font-size: 0.95rem;
+    }
+
+    .data-table th {
+      text-align: left;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--accent);
+      border-bottom: 2px solid var(--line);
+      padding: 8px 16px 8px 0;
+    }
+
+    .data-table td {
+      vertical-align: top;
+      padding: 10px 16px 10px 0;
+      border-bottom: 1px solid rgba(140, 122, 82, 0.3);
+      color: var(--ink-soft);
+      line-height: 1.5;
+    }
+
+    .data-table td:first-child {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.82rem;
+      color: var(--ink);
+      white-space: nowrap;
+    }
+
+    .formula-block {
+      background: var(--card-bg);
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      padding: 20px 24px;
+      margin: 20px 0 32px;
+      max-width: 72ch;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      color: var(--ink);
+      white-space: pre;
+    }
+
+    .diagram-wrap {
+      margin: 40px 0;
+      overflow-x: auto;
+    }
+
+    .results-highlight {
+      display: flex;
+      gap: 2px;
+      background: var(--line);
+      border: 2px solid var(--line);
+      border-radius: 4px;
+      margin: 20px 0 32px;
+      max-width: 72ch;
+      overflow: hidden;
+    }
+
+    .result-cell {
+      background: var(--card-bg);
+      padding: 20px 24px;
+      flex: 1;
+    }
+
+    .result-label {
+      display: block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 6px;
+    }
+
+    .result-score {
+      display: block;
+      font-family: 'Instrument Serif', Georgia, serif;
+      font-style: italic;
+      font-size: 2rem;
+      color: var(--ink);
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+
+    .result-desc {
+      font-size: 0.82rem;
+      color: var(--ink-soft);
+      margin: 0;
+    }
+
+    .next-list {
+      list-style: none;
+      padding: 0;
+      margin: 16px 0 0;
+    }
+
+    .next-list li {
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(140, 122, 82, 0.3);
+      color: var(--ink-soft);
+      font-size: 1rem;
+    }
+
+    .next-list li::before {
+      content: '→';
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--accent);
+      margin-right: 12px;
+    }
+  </style>
+</head>
+<body>
+  <div class="grain"></div>
+  <header class="nav">
+    <a href="/" class="logo">JS<span class="dot">.</span></a>
+    <nav class="nav-links">
+      <a href="/log">The Log</a>
+      <a href="/work">Work</a>
+      <a href="/about">About</a>
+    </nav>
+  </header>
+
+  <main id="top">
+    <article class="article">
+      <p class="eyebrow">§ The Log · Technical</p>
+      <h1 class="article-title">A Glimpse of What Enterprise RAG Can Look Like</h1>
+      <time class="post-date">August 15, 2026</time>
+
+      <div class="article-body">
+
+        <h2>Overview</h2>
+        <p>
+          In this project I built a hybrid RAG system on top of aerospace manufacturing data, using semi-structured documents and a full retrieval evaluation suite. The goal is to give you an inside look at how a RAG pipeline is actually constructed — the tooling, the search and ranking mechanisms, and why this kind of system is genuinely useful for an organization that sits on a corpus of domain-specific documents.
+        </p>
+        <p>The steps I took, in order, were:</p>
+        <ul>
+          <li>Generating synthetic data using Llama 3.3 70B Instruct</li>
+          <li>Creating token-aware chunks</li>
+          <li>Embedding chunks with Cohere's Embed v3 model</li>
+          <li>Storing vectors in a ChromaDB vector database</li>
+          <li>Dense retrieval using cosine similarity</li>
+          <li>Sparse retrieval using BM25Okapi</li>
+          <li>Applying Reciprocal Rank Fusion (RRF), merging the dense and sparse retrieval</li>
+          <li>Reranking and rescoring with Cohere's Rerank v4</li>
+          <li>Generating responses to a query using Claude Sonnet via OpenRouter</li>
+          <li>Evaluation harness using Hit Rate, MRR, and NDCG@5</li>
+        </ul>
+
+        <p>Here is a high-level diagram of the pipeline with an explanation of each step in the process.</p>
+
+        <div class="diagram-wrap">
+          <svg width="840" height="320" viewBox="0 0 840 320" xmlns="http://www.w3.org/2000/svg" style="font-family: Inter, sans-serif;">
+            <!-- INDEX TIME zone -->
+            <rect x="12" y="12" width="816" height="130" rx="6" fill="#DDD0A8" stroke="#8C7A52" stroke-width="1.5" stroke-dasharray="6 4"/>
+            <text x="28" y="32" font-family="'JetBrains Mono', monospace" font-size="10" fill="#B8391F" letter-spacing="0.08em" text-anchor="start">INDEX TIME</text>
+
+            <!-- Index boxes -->
+            <!-- Box 1: Synthetic Data Gen -->
+            <rect x="32" y="44" width="160" height="78" rx="4" fill="#EEE0BC" stroke="#8C7A52" stroke-width="1.5"/>
+            <text x="112" y="78" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="500" fill="#2A2117" text-anchor="middle">Synthetic Data Gen</text>
+            <text x="112" y="96" font-family="Inter, sans-serif" font-size="10" fill="#6B5E47" text-anchor="middle">Llama 70B</text>
+            <text x="112" y="111" font-family="Inter, sans-serif" font-size="10" fill="#6B5E47" text-anchor="middle">500 documents</text>
+
+            <!-- Arrow 1→2 -->
+            <line x1="192" y1="83" x2="218" y2="83" stroke="#8C7A52" stroke-width="1.5" marker-end="url(#arr)"/>
+
+            <!-- Box 2: Chunking -->
+            <rect x="218" y="44" width="160" height="78" rx="4" fill="#EEE0BC" stroke="#8C7A52" stroke-width="1.5"/>
+            <text x="298" y="78" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="500" fill="#2A2117" text-anchor="middle">Token-Aware Chunking</text>
+            <text x="298" y="96" font-family="Inter, sans-serif" font-size="10" fill="#6B5E47" text-anchor="middle">512 tokens</text>
+            <text x="298" y="111" font-family="Inter, sans-serif" font-size="10" fill="#6B5E47" text-anchor="middle">64 token overlap</text>
+
+            <!-- Arrow 2→3 -->
+            <line x1="378" y1="83" x2="404" y2="83" stroke="#8C7A52" stroke-width="1.5" marker-end="url(#arr)"/>
+
+            <!-- Box 3: Embed -->
+            <rect x="404" y="44" width="160" height="78" rx="4" fill="#EEE0BC" stroke="#8C7A52" stroke-width="1.5"/>
+            <text x="484" y="78" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="500" fill="#2A2117" text-anchor="middle">Cohere Embed v3</text>
+            <text x="484" y="96" font-family="Inter, sans-serif" font-size="10" fill="#6B5E47" text-anchor="middle">embed-english-v3.0</text>
+            <text x="484" y="111" font-family="Inter, sans-serif" font-size="10" fill="#6B5E47" text-anchor="middle">search_document</text>
+
+            <!-- Arrow 3→4 -->
+            <line x1="564" y1="83" x2="590" y2="83" stroke="#8C7A52" stroke-width="1.5" marker-end="url(#arr)"/>
+
+            <!-- Box 4: ChromaDB -->
+            <rect x="590" y="44" width="160" height="78" rx="4" fill="#EEE0BC" stroke="#8C7A52" stroke-width="1.5"/>
+            <text x="670" y="78" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="500" fill="#2A2117" text-anchor="middle">ChromaDB</text>
+            <text x="670" y="96" font-family="Inter, sans-serif" font-size="10" fill="#6B5E47" text-anchor="middle">HNSW index</text>
+            <text x="670" y="111" font-family="Inter, sans-serif" font-size="10" fill="#6B5E47" text-anchor="middle">cosine similarity</text>
+
+            <!-- QUERY TIME zone -->
+            <rect x="12" y="162" width="816" height="146" rx="6" fill="#E5D9B2" stroke="#8C7A52" stroke-width="1.5" stroke-dasharray="6 4"/>
+            <text x="28" y="180" font-family="'JetBrains Mono', monospace" font-size="10" fill="#6B5E47" letter-spacing="0.08em" text-anchor="start">QUERY TIME</text>
+
+            <!-- User Query box -->
+            <rect x="32" y="190" width="120" height="78" rx="4" fill="#EEE0BC" stroke="#8C7A52" stroke-width="1.5"/>
+            <text x="92" y="228" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="500" fill="#2A2117" text-anchor="middle">User Query</text>
+            <text x="92" y="246" font-family="Inter, sans-serif" font-size="10" fill="#6B5E47" text-anchor="middle">search_query</text>
+
+            <!-- Arrow to Dense (up) -->
+            <line x1="152" y1="214" x2="172" y2="204" stroke="#8C7A52" stroke-width="1.5" marker-end="url(#arr)"/>
+            <!-- Arrow to BM25 (down) -->
+            <line x1="152" y1="246" x2="172" y2="256" stroke="#8C7A52" stroke-width="1.5" marker-end="url(#arr)"/>
+
+            <!-- Dense Retrieval box -->
+            <rect x="172" y="186" width="148" height="58" rx="4" fill="#EEE0BC" stroke="#8C7A52" stroke-width="1.5"/>
+            <text x="246" y="213" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="500" fill="#2A2117" text-anchor="middle">Dense Retrieval</text>
+            <text x="246" y="231" font-family="Inter, sans-serif" font-size="10" fill="#6B5E47" text-anchor="middle">cosine sim, top 20</text>
+
+            <!-- BM25 box -->
+            <rect x="172" y="254" width="148" height="58" rx="4" fill="#EEE0BC" stroke="#8C7A52" stroke-width="1.5"/>
+            <text x="246" y="281" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="500" fill="#2A2117" text-anchor="middle">Sparse BM25</text>
+            <text x="246" y="299" font-family="Inter, sans-serif" font-size="10" fill="#6B5E47" text-anchor="middle">keyword, top 20</text>
+
+            <!-- Arrow Dense → RRF -->
+            <line x1="320" y1="215" x2="352" y2="229" stroke="#8C7A52" stroke-width="1.5" marker-end="url(#arr)"/>
+            <!-- Arrow BM25 → RRF -->
+            <line x1="320" y1="283" x2="352" y2="253" stroke="#8C7A52" stroke-width="1.5" marker-end="url(#arr)"/>
+
+            <!-- RRF box -->
+            <rect x="352" y="210" width="130" height="62" rx="4" fill="#EEE0BC" stroke="#8C7A52" stroke-width="1.5"/>
+            <text x="417" y="237" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="500" fill="#2A2117" text-anchor="middle">RRF Fusion</text>
+            <text x="417" y="255" font-family="Inter, sans-serif" font-size="10" fill="#6B5E47" text-anchor="middle">k=60, merged top 20</text>
+
+            <!-- Arrow RRF → Rerank -->
+            <line x1="482" y1="241" x2="510" y2="241" stroke="#8C7A52" stroke-width="1.5" marker-end="url(#arr)"/>
+
+            <!-- Rerank box -->
+            <rect x="510" y="210" width="140" height="62" rx="4" fill="#EEE0BC" stroke="#8C7A52" stroke-width="1.5"/>
+            <text x="580" y="237" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="500" fill="#2A2117" text-anchor="middle">Rerank v4</text>
+            <text x="580" y="255" font-family="Inter, sans-serif" font-size="10" fill="#6B5E47" text-anchor="middle">cross-encoder, top 5</text>
+
+            <!-- Arrow Rerank → Claude -->
+            <line x1="650" y1="241" x2="678" y2="241" stroke="#8C7A52" stroke-width="1.5" marker-end="url(#arr)"/>
+
+            <!-- Claude box -->
+            <rect x="678" y="210" width="140" height="62" rx="4" fill="#EEE0BC" stroke="#8C7A52" stroke-width="1.5"/>
+            <text x="748" y="237" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="500" fill="#2A2117" text-anchor="middle">Claude Sonnet</text>
+            <text x="748" y="255" font-family="Inter, sans-serif" font-size="10" fill="#6B5E47" text-anchor="middle">grounded answer</text>
+
+            <!-- Arrow marker -->
+            <defs>
+              <marker id="arr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+                <path d="M0,0 L0,6 L8,3 z" fill="#8C7A52"/>
+              </marker>
+            </defs>
+          </svg>
+        </div>
+
+        <h2>Generating Synthetic Data</h2>
+        <p>
+          Manufacturing datasets are sparse online — they are typically company proprietary, export-controlled, and contain sensitive information. The solution for this project was to use an open-weight LLM to synthetically craft 500 documents that follow authentic aerospace quality management patterns.
+        </p>
+
+        <h3>Document types generated</h3>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Type</th>
+              <th>Count</th>
+              <th>What it represents</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>NCR (Non-Conformance Report)</td>
+              <td>150</td>
+              <td>A part that failed inspection — records the defect, part number, supplier, disposition</td>
+            </tr>
+            <tr>
+              <td>ECR (Engineering Change Request)</td>
+              <td>100</td>
+              <td>A formal request to change a drawing or specification</td>
+            </tr>
+            <tr>
+              <td>Supplier Audit</td>
+              <td>100</td>
+              <td>A quality audit of a supplier's manufacturing process</td>
+            </tr>
+            <tr>
+              <td>Corrective Action Report</td>
+              <td>100</td>
+              <td>Root cause analysis + action plan for a recurring defect</td>
+            </tr>
+            <tr>
+              <td>Incident Report</td>
+              <td>50</td>
+              <td>Safety or process incident during manufacturing</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>How the generator works</h3>
+        <p>
+          The script builds a context dictionary for each document (random part numbers, suppliers, defect types from curated vocabulary lists), converts it into a detailed prompt, sends it to Llama 70B, and writes the result as JSONL.
+        </p>
+
+<pre><code># Domain vocabulary — grounds the LLM in realistic aerospace language
+SUPPLIERS = [
+    "Apex Precision Components", "Orbital Fasteners Ltd",
+    "NovaTech Composites", "Sterling Hydraulics", ...
+]
+
+DEFECT_TYPES = [
+    "Dimensional out-of-tolerance",
+    "Porosity detected on X-ray",
+    "Coating adhesion failure", ...
+]</code></pre>
+
+        <h3>The sampling parameters used</h3>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Parameter</th>
+              <th>Value</th>
+              <th>Effect</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>temperature</td>
+              <td>0.8</td>
+              <td>Controls how random and/or creative the text will be. 0 = deterministic. 1.0 = very random. A value of 0.8 allowed varied narratives while staying coherent.</td>
+            </tr>
+            <tr>
+              <td>top_p</td>
+              <td>0.92</td>
+              <td>(nucleus sampling) Controls how many word choices the model has. Higher = more variety and creativity. More variety resembles enterprise data more closely.</td>
+            </tr>
+            <tr>
+              <td>frequency_penalty</td>
+              <td>0.4</td>
+              <td>Lowers the chance of a word being repeated. Ranges from -2.0 to 2.0. At 0.4, words can repeat a few times before being penalized.</td>
+            </tr>
+            <tr>
+              <td>max_tokens</td>
+              <td>800</td>
+              <td>Cap on output length. 800 tokens is roughly 600 words — enough for a complete narrative without runaway generation.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>Output format — JSONL</h3>
+        <p>
+          The output is in JSONL format and an example is shown here. JSON is considered semi-structured data. Aerospace (and manufacturing) data comes in structured, semi-structured, and unstructured forms. For the first iteration of this project I stuck with semi-structured data. In future iterations I will be exploring RAG systems with all structures of text data along with multimodal data.
+        </p>
+
+<pre><code># Each line in data/synthetic/ncr.jsonl is one JSON object:
+{
+  "doc_id": "NCR-2025-08324",
+  "doc_type": "NCR",
+  "supplier": "Apex Precision Components",
+  "part_number": "PN-4821-A",
+  "defect_type": "Porosity detected on X-ray",
+  "text": "Non-Conformance Report NCR-2025-08324 was raised..."
+}</code></pre>
+
+        <h2>Chunking</h2>
+        <p>
+          Before we can embed a document, it must be split into chunks. Embedding models have a context window (typically 512 tokens long), so documents that exceed this length cannot be embedded as a single unit without the model truncating them or erroring out.
+        </p>
+        <p>
+          I went with sentence boundary chunking — creating chunks on sentence boundaries and only starting a new chunk when adding a new sentence to the current chunk would exceed 512 tokens. Tokens were counted using tiktoken's <code>cl100k_base</code> model.
+        </p>
+
+        <h3>Visual walkthrough of the chunking overlap</h3>
+        <p>
+          When chunking, a query could reference something that spans two chunks. For example, an NCR could mention details that exceed a chunk boundary and land in the next chunk. To handle this, chunks include a 64-token overlap. This is visualized below.
+        </p>
+
+        <div class="diagram-wrap">
+          <svg width="800" height="160" viewBox="0 0 800 160" xmlns="http://www.w3.org/2000/svg" style="font-family: Inter, sans-serif;">
+            <!-- Document bar -->
+            <rect x="20" y="16" width="760" height="28" rx="3" fill="#8C7A52" opacity="0.25"/>
+            <text x="400" y="35" font-family="'JetBrains Mono', monospace" font-size="11" fill="#2A2117" text-anchor="middle" font-weight="500">Document</text>
+
+            <!-- Chunk 1 bar -->
+            <rect x="20" y="72" width="310" height="36" rx="3" fill="#EEE0BC" stroke="#8C7A52" stroke-width="1.5"/>
+            <text x="100" y="87" font-family="'JetBrains Mono', monospace" font-size="11" fill="#2A2117" text-anchor="middle" font-weight="500">Chunk 1</text>
+            <text x="100" y="102" font-family="Inter, sans-serif" font-size="10" fill="#6B5E47" text-anchor="middle">≤ 512 tokens</text>
+
+            <!-- Chunk 2 bar -->
+            <rect x="256" y="72" width="310" height="36" rx="3" fill="#EEE0BC" stroke="#8C7A52" stroke-width="1.5"/>
+            <text x="411" y="87" font-family="'JetBrains Mono', monospace" font-size="11" fill="#2A2117" text-anchor="middle" font-weight="500">Chunk 2</text>
+            <text x="411" y="102" font-family="Inter, sans-serif" font-size="10" fill="#6B5E47" text-anchor="middle">≤ 512 tokens</text>
+
+            <!-- Chunk 3 bar -->
+            <rect x="492" y="72" width="288" height="36" rx="3" fill="#EEE0BC" stroke="#8C7A52" stroke-width="1.5"/>
+            <text x="636" y="87" font-family="'JetBrains Mono', monospace" font-size="11" fill="#2A2117" text-anchor="middle" font-weight="500">Chunk 3</text>
+            <text x="636" y="102" font-family="Inter, sans-serif" font-size="10" fill="#6B5E47" text-anchor="middle">≤ 512 tokens</text>
+
+            <!-- Overlap 1/2 highlight -->
+            <rect x="256" y="72" width="74" height="36" rx="0" fill="#B8391F" opacity="0.22"/>
+            <text x="293" y="136" font-family="'JetBrains Mono', monospace" font-size="9.5" fill="#B8391F" text-anchor="middle">64 tokens overlap</text>
+            <line x1="293" y1="127" x2="293" y2="110" stroke="#B8391F" stroke-width="1" stroke-dasharray="3 2"/>
+
+            <!-- Overlap 2/3 highlight -->
+            <rect x="492" y="72" width="74" height="36" rx="0" fill="#B8391F" opacity="0.22"/>
+            <text x="529" y="136" font-family="'JetBrains Mono', monospace" font-size="9.5" fill="#B8391F" text-anchor="middle">64 tokens overlap</text>
+            <line x1="529" y1="127" x2="529" y2="110" stroke="#B8391F" stroke-width="1" stroke-dasharray="3 2"/>
+
+            <!-- Connector lines from document to chunks -->
+            <line x1="175" y1="44" x2="175" y2="70" stroke="#8C7A52" stroke-width="1" stroke-dasharray="3 2" opacity="0.6"/>
+            <line x1="411" y1="44" x2="411" y2="70" stroke="#8C7A52" stroke-width="1" stroke-dasharray="3 2" opacity="0.6"/>
+            <line x1="636" y1="44" x2="636" y2="70" stroke="#8C7A52" stroke-width="1" stroke-dasharray="3 2" opacity="0.6"/>
+          </svg>
+        </div>
+
+        <h2>Embedding Chunks with Cohere Embed v3</h2>
+        <p>
+          Once documents are chunked, the next step is converting each chunk into a vector — a fixed-length list of floating point numbers that represents the semantic meaning of the text. This is what allows us to search by meaning rather than just keywords. Similar chunks produce vectors that are close together in a high-dimensional space, even if they share no exact words.
+        </p>
+        <p>
+          For this project I used Cohere's Embed v3 model (<code>embed-english-v3.0</code>).
+        </p>
+
+        <h3>The input_type distinction</h3>
+        <p>
+          An important caveat about Cohere's embedding API is that it requires you to declare whether you are embedding a document (being stored in the index) or a query (being searched at runtime). The model uses different internal encoding paths for each. Using the wrong type silently degrades retrieval quality — you get plausible-looking but sub-optimal results with no error message.
+        </p>
+
+<pre><code># At index time — encoding chunks for storage
+embed_documents(texts)  # input_type = "search_document"
+
+# At query time — encoding the user's question
+embed_query(text)       # input_type = "search_query"</code></pre>
+
+        <h3>Batching and error handling</h3>
+        <p>
+          The embedder processes chunks in batches of 96 texts per request. For our 398 chunks that means 5 API calls per index build. To handle API errors gracefully, the embedder includes a retry loop that catches any <code>TooManyRequestsError</code> and waits 61 seconds before retrying the same batch — useful when running multiple index builds in the same session.
+        </p>
+
+<pre><code>except TooManyRequestsError:
+    print(f"Rate limit hit — waiting 61s ...")
+    time.sleep(61)</code></pre>
+
+        <p>The output of this step is a <code>float32</code> vector for each chunk, ready to be stored in ChromaDB.</p>
+
+        <h2>Storing Vectors in ChromaDB</h2>
+        <p>
+          ChromaDB is an open-source vector database. It stores triples (vector, document, metadata) and supports quick approximate nearest-neighbour search. The vectors are stored on disk and persist between sessions, so you only need to embed your documents once.
+        </p>
+        <p>
+          For this project the vectors are stored in a named collection (<code>mfg_rag_cohere_v3</code>) within ChromaDB's persistent directory on disk.
+        </p>
+
+        <h3>Why cosine similarity?</h3>
+        <p>
+          ChromaDB supports multiple distance metrics. I chose cosine similarity because it measures the angle between two vectors rather than their magnitude. This means two chunks about the same topic will score highly regardless of their length. Euclidean distance penalizes shorter chunks because their vectors have smaller magnitudes — cosine is invariant to this and is the standard choice for embedding-based retrieval.
+        </p>
+        <p>
+          ChromaDB returns cosine distance (0 = identical, 2 = opposite). We convert it to similarity with a simple inversion: <code>score = 1 - distance</code>, so that higher always means more relevant, consistent with BM25 scores in the next step.
+        </p>
+
+        <h2>Dense Retrieval</h2>
+        <p>
+          With the index built, we can retrieve relevant chunks for any query. Dense retrieval works by embedding the user's query using the same Cohere model (with <code>input_type = "search_query"</code>) and asking ChromaDB to find the 20 most similar vectors using the HNSW index. HNSW (Hierarchical Navigable Small World) is a graph-based approximate nearest-neighbour algorithm — it finds the most similar vectors quickly without comparing the query against every chunk in the database, which would be far too slow at scale.
+        </p>
+        <p>
+          This is where the power of embeddings shows up. A query like "which parts had internal voids?" will retrieve chunks about porosity defects even though the word "porosity" never appears in the query — because both concepts map to nearby regions of the vector space.
+        </p>
+        <p>
+          We retrieve the top 20 candidates at this stage rather than the final 5, because the reranker at the end of the pipeline is much better at precise ranking. The retriever's job is to cast a wide enough net that the right documents are in the candidate pool.
+        </p>
+
+        <h2>Sparse Retrieval using BM25Okapi</h2>
+        <p>
+          Dense retrieval alone has a blind spot: exact keyword matching. A query for a specific document ID like <code>NCR-2025-08324</code> or a rare part number may not produce a meaningful embedding signal — the model simply hasn't seen enough context to know that this string is important. This is where sparse retrieval steps in.
+        </p>
+        <p>
+          BM25 (Best Match 25) is a classical probabilistic ranking function that scores documents based on term frequency, inverse document frequency, and document length normalization. It requires no embedding model — it operates directly on tokenized text.
+        </p>
+
+        <div class="formula-block">score(d, q) = &sum; IDF(q&#x1D62;) &middot; TF(q&#x1D62;, d) &middot; length normalisation
+
+  IDF  &mdash; rare terms score higher than common ones
+  TF   &mdash; how often the query term appears in the document
+  len  &mdash; prevents long documents from winning just because they contain more words</div>
+
+        <p>
+          The BM25 index is built in memory at startup from all chunk texts. At query time, the query is tokenized, scored against every chunk, and the top 20 non-zero results are returned. This takes milliseconds for our dataset size.
+        </p>
+        <p>
+          The result is two ranked lists — one from dense retrieval, one from sparse — which we now need to merge.
+        </p>
+
+        <h2>Reciprocal Rank Fusion (RRF)</h2>
+        <p>
+          We now have two ranked lists of 20 candidates each, and they may overlap partially. The question is: how do we merge them into a single ranked list in a principled way?
+        </p>
+        <p>
+          The answer is Reciprocal Rank Fusion, from Cormack, Clarke &amp; Buettcher (SIGIR 2009). The formula is:
+        </p>
+
+        <div class="formula-block">RRF_score(d) = &sum;   1 / (k + rank(d))
+               lists
+
+Where k = 60 (the constant from the original paper) and rank is 1-based.
+A document at rank 1 in the dense list contributes 1/(60+1) &asymp; 0.0164.
+A document appearing in both lists accumulates score from each.</div>
+
+        <p>
+          The constant <code>k = 60</code> controls how aggressively top ranks are rewarded. It was empirically shown to generalize well across retrieval tasks without dataset-specific tuning, which is why it has become the standard default.
+        </p>
+        <p>
+          The output of RRF is a single merged list. We pass the top 20 fused candidates to the reranker.
+        </p>
+
+        <h2>Reranking with Cohere Rerank v4</h2>
+        <p>
+          The retrievers so far — both dense and sparse — are bi-encoders. They encode the query and each document independently and find nearby vectors. This is fast but coarse: the query and document never interact during encoding, so subtle relevance signals can be missed.
+        </p>
+        <p>
+          A cross-encoder reads the query and one document together in a single forward pass, with full attention across both. This is far more accurate but also far too slow to run on the full corpus. The solution is to use it only on the shortlist: the top 20 fused candidates from RRF.
+        </p>
+        <p>
+          Cohere Rerank v4 (<code>rerank-v4.0-fast</code>) re-scores each of the 20 candidates against the query and returns the top 5 with a <code>rerank_score</code> between 0 and 1. In practice, the reranker frequently promotes documents that the bi-encoder ranked 8th or 10th to the top 3 — particularly for queries with nuanced intent that dense similarity alone misses.
+        </p>
+        <p>
+          The top 5 reranked chunks become the context for the generation step.
+        </p>
+
+        <h2>Generating Responses with Claude Sonnet</h2>
+        <p>
+          The final retrieval step hands off to Claude Sonnet (via OpenRouter) to generate a grounded natural language answer from the top 5 chunks. The key design constraint is that Claude is explicitly instructed to answer only from the provided context — no external knowledge, no hallucination. If the answer is not in the chunks, it says so.
+        </p>
+
+<pre><code>_SYSTEM_PROMPT = """
+You are a quality engineering assistant for an aerospace manufacturing company.
+Answer the user's question using ONLY the information in the provided context documents.
+If the answer cannot be found in the context, say so clearly — do not guess.
+When referencing specific information, cite the document ID (e.g. "per NCR-2024-00042").
+"""</code></pre>
+
+        <p>
+          Each chunk is numbered and labeled with its doc ID, type, and supplier before being passed to the model. This makes citation straightforward and keeps the answer traceable back to the source document — which is what makes RAG trustworthy in an enterprise context.
+        </p>
+
+        <h3>Why OpenRouter?</h3>
+        <p>
+          OpenRouter is an API gateway that provides access to models from many providers under a single API key. This project already used an OpenRouter key for the Llama 70B synthetic generation step, so reusing it for Claude avoided adding a second API key and separate billing account.
+        </p>
+
+        <h2>Evaluation Harness</h2>
+        <p>
+          A pipeline that "works" is not the same as a pipeline that is measurably good. The evaluation harness provides the numbers.
+        </p>
+
+        <h3>The golden dataset</h3>
+        <p>
+          I built a golden dataset of 27 queries by deriving them directly from the structured metadata fields that Llama 70B used when generating each document. Because the metadata records <code>defect_type: "Porosity detected on X-ray"</code> for each NCR, we can automatically generate the query "Which NCRs involved porosity defects?" and know with certainty which doc IDs are the correct answers — no manual labeling required.
+        </p>
+        <p>
+          This approach gives deterministic, verifiable ground truth across all 5 document types.
+        </p>
+
+        <h3>Metrics</h3>
+        <p>Three standard retrieval metrics were computed at k=5 (top 5 results):</p>
+
+        <div class="results-highlight">
+          <div class="result-cell">
+            <span class="result-label">Hit Rate@5</span>
+            <span class="result-score">0.89</span>
+            <p class="result-desc">At least one correct document appeared in the top 5 (24/27 queries)</p>
+          </div>
+          <div class="result-cell">
+            <span class="result-label">MRR@5</span>
+            <span class="result-score">0.74</span>
+            <p class="result-desc">Average reciprocal rank of the first correct document (1/rank, averaged)</p>
+          </div>
+          <div class="result-cell">
+            <span class="result-label">NDCG@5</span>
+            <span class="result-score">0.62</span>
+            <p class="result-desc">How well all correct documents were ranked across the top 5 (logarithmically discounted)</p>
+          </div>
+        </div>
+
+        <p>
+          An MRR of 0.74 means that on average the first relevant document lands around rank 1–2, which is strong for a 27-query benchmark on a domain-specific corpus. The 3 misses (<code>ncr_defect_material_cert</code>, <code>ncr_disposition_uai</code>, <code>ncr_severity_critical</code>) are queries where the pipeline's top 5 contained no ground-truth relevant documents — areas to improve in future iterations.
+        </p>
+
+        <h2>What's next</h2>
+        <ul class="next-list">
+          <li>Run the <code>--no-rerank</code> baseline to quantify how much the reranker contributes</li>
+          <li>Expand the golden dataset to 100+ queries using LLM-generated questions from document text</li>
+          <li>Explore unstructured and multimodal data in future iterations</li>
+        </ul>
+
+        <div class="link-row">
+          <p>The full code, chunked data, and evaluation results are available on GitHub. <a href="https://github.com/junaidsyed11/mfg-rag-benchmark" class="link-pill">View the repository</a></p>
+        </div>
+
+      </div>
+    </article>
+  </main>
+
+  <footer class="footer">
+    <span>&copy; 2026 Junaid Syed<span class="dot">.</span></span>
+    <span>Built in public from Mississauga.</span>
+  </footer>
+</body>
+</html>
