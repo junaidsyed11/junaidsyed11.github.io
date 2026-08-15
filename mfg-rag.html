@@ -19,7 +19,6 @@
       color: var(--ink);
       margin: 40px 0 12px;
     }
-
     pre {
       background: var(--card-bg);
       border: 1px solid var(--line);
@@ -30,17 +29,15 @@
       margin: 20px 0 32px;
       max-width: 72ch;
     }
-
     pre code {
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.82rem;
-      line-height: 1.6;
+      line-height: 1.65;
       color: var(--ink);
       background: none;
       border: none;
       padding: 0;
     }
-
     code {
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.85em;
@@ -50,7 +47,6 @@
       padding: 1px 5px;
       color: var(--ink);
     }
-
     .data-table {
       width: 100%;
       max-width: 72ch;
@@ -58,7 +54,6 @@
       margin: 20px 0 32px;
       font-size: 0.95rem;
     }
-
     .data-table th {
       text-align: left;
       font-family: 'JetBrains Mono', monospace;
@@ -67,25 +62,21 @@
       text-transform: uppercase;
       color: var(--accent);
       border-bottom: 2px solid var(--line);
-      padding: 8px 16px 8px 0;
+      padding: 8px 20px 8px 0;
     }
-
     .data-table td {
       vertical-align: top;
-      padding: 10px 16px 10px 0;
-      border-bottom: 1px solid rgba(140, 122, 82, 0.3);
+      padding: 10px 20px 10px 0;
+      border-bottom: 1px solid rgba(140,122,82,0.3);
       color: var(--ink-soft);
       line-height: 1.5;
     }
-
     .data-table td:first-child {
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.82rem;
       color: var(--ink);
       white-space: nowrap;
-      padding-right: 24px;
     }
-
     .formula-block {
       background: var(--card-bg);
       border: 1px solid var(--line);
@@ -101,12 +92,10 @@
       white-space: pre;
       overflow-x: auto;
     }
-
     .diagram-wrap {
       margin: 40px 0;
       overflow-x: auto;
     }
-
     .results-highlight {
       display: flex;
       gap: 2px;
@@ -117,13 +106,11 @@
       max-width: 72ch;
       overflow: hidden;
     }
-
     .result-cell {
       background: var(--card-bg);
       padding: 20px 24px;
       flex: 1;
     }
-
     .result-label {
       display: block;
       font-family: 'JetBrains Mono', monospace;
@@ -133,7 +120,6 @@
       letter-spacing: 0.08em;
       margin-bottom: 8px;
     }
-
     .result-score {
       display: block;
       font-family: 'Instrument Serif', Georgia, serif;
@@ -143,46 +129,35 @@
       line-height: 1;
       margin-bottom: 8px;
     }
-
     .result-desc {
       font-size: 0.82rem;
       color: var(--ink-soft);
       margin: 0;
       line-height: 1.4;
     }
-
     .next-list {
       list-style: none;
       padding: 0;
       margin: 16px 0 40px;
     }
-
     .next-list li {
       padding: 12px 0;
-      border-bottom: 1px solid rgba(140, 122, 82, 0.3);
+      border-bottom: 1px solid rgba(140,122,82,0.3);
       color: var(--ink-soft);
       font-size: 1rem;
     }
-
     .next-list li::before {
       content: '→';
       font-family: 'JetBrains Mono', monospace;
       color: var(--accent);
       margin-right: 12px;
     }
-
-    .repo-cta {
-      margin: 0 0 56px;
-    }
-
-    .repo-cta p {
-      margin: 0 0 16px;
-    }
+    .repo-cta { margin: 0 0 56px; }
+    .repo-cta p { margin: 0 0 16px; }
   </style>
 </head>
 <body>
   <div class="grain"></div>
-
   <header class="nav">
     <a href="index.html" class="wordmark">JS<span class="dot">.</span></a>
     <nav class="nav-links">
@@ -219,9 +194,9 @@
 
         <p>Here is a high-level diagram of the pipeline with an explanation of each step.</p>
 
-        <!-- ── PIPELINE DIAGRAM ── -->
+        <!-- ═══ PIPELINE OVERVIEW DIAGRAM ═══ -->
         <div class="diagram-wrap">
-          <svg viewBox="0 0 840 340" width="840" height="340" xmlns="http://www.w3.org/2000/svg">
+          <svg viewBox="0 0 920 372" width="920" height="372" xmlns="http://www.w3.org/2000/svg">
             <defs>
               <marker id="arr" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
                 <polygon points="0 0, 8 3, 0 6" fill="#8C7A52"/>
@@ -229,90 +204,110 @@
             </defs>
 
             <!-- INDEX TIME zone -->
-            <rect x="12" y="12" width="816" height="142" rx="6" fill="#E4D5A6" stroke="#8C7A52" stroke-width="1.5" stroke-dasharray="6 4"/>
-            <text x="28" y="32" font-family="'JetBrains Mono',monospace" font-size="10" font-weight="700" fill="#B8391F" letter-spacing="0.1em">INDEX TIME — run once</text>
+            <rect x="12" y="12" width="896" height="158" rx="7" fill="#E4D5A6" stroke="#8C7A52" stroke-width="1.5" stroke-dasharray="6 4"/>
+            <text x="28" y="33" font-family="'JetBrains Mono',monospace" font-size="10" font-weight="700" fill="#B8391F" letter-spacing="0.1em">INDEX TIME — run once</text>
 
             <!-- Box 1: Synthetic Data Gen -->
-            <rect x="32" y="48" width="176" height="88" rx="5" fill="#EEE0BC" stroke="#8C7A52" stroke-width="1.5"/>
-            <text x="120" y="80" font-family="'JetBrains Mono',monospace" font-size="11" font-weight="700" fill="#2A2117" text-anchor="middle">Synthetic Data Gen</text>
-            <text x="120" y="97" font-family="'Inter',sans-serif" font-size="10" fill="#6B5E47" text-anchor="middle">Llama 3.3 70B</text>
-            <text x="120" y="112" font-family="'Inter',sans-serif" font-size="10" fill="#6B5E47" text-anchor="middle">500 documents / JSONL</text>
+            <rect x="38" y="46" width="196" height="106" rx="6" fill="#EEE0BC" stroke="#B8391F" stroke-width="1.5"/>
+            <rect x="38" y="46" width="196" height="5" rx="6" fill="#B8391F"/>
+            <text x="136" y="77" font-family="'JetBrains Mono',monospace" font-size="11" font-weight="700" fill="#2A2117" text-anchor="middle">Synthetic Data Gen</text>
+            <text x="136" y="95" font-family="'Inter',sans-serif" font-size="10" fill="#6B5E47" text-anchor="middle">Llama 3.3 70B</text>
+            <text x="136" y="111" font-family="'Inter',sans-serif" font-size="10" fill="#6B5E47" text-anchor="middle">500 documents</text>
+            <text x="136" y="127" font-family="'JetBrains Mono',monospace" font-size="9" fill="#8C7A52" text-anchor="middle">JSONL output</text>
 
             <!-- Arrow 1→2 -->
-            <line x1="208" y1="92" x2="232" y2="92" stroke="#8C7A52" stroke-width="1.5" marker-end="url(#arr)"/>
+            <line x1="234" y1="99" x2="254" y2="99" stroke="#8C7A52" stroke-width="1.5" marker-end="url(#arr)"/>
 
             <!-- Box 2: Chunking -->
-            <rect x="232" y="48" width="176" height="88" rx="5" fill="#EEE0BC" stroke="#8C7A52" stroke-width="1.5"/>
-            <text x="320" y="72" font-family="'JetBrains Mono',monospace" font-size="11" font-weight="700" fill="#2A2117" text-anchor="middle">Token-Aware</text>
-            <text x="320" y="87" font-family="'JetBrains Mono',monospace" font-size="11" font-weight="700" fill="#2A2117" text-anchor="middle">Chunking</text>
-            <text x="320" y="105" font-family="'Inter',sans-serif" font-size="10" fill="#6B5E47" text-anchor="middle">512 tokens max</text>
-            <text x="320" y="120" font-family="'Inter',sans-serif" font-size="10" fill="#6B5E47" text-anchor="middle">64 token overlap</text>
+            <rect x="254" y="46" width="196" height="106" rx="6" fill="#EEE0BC" stroke="#B8391F" stroke-width="1.5"/>
+            <rect x="254" y="46" width="196" height="5" rx="6" fill="#B8391F"/>
+            <text x="352" y="70" font-family="'JetBrains Mono',monospace" font-size="11" font-weight="700" fill="#2A2117" text-anchor="middle">Token-Aware</text>
+            <text x="352" y="85" font-family="'JetBrains Mono',monospace" font-size="11" font-weight="700" fill="#2A2117" text-anchor="middle">Chunking</text>
+            <text x="352" y="104" font-family="'Inter',sans-serif" font-size="10" fill="#6B5E47" text-anchor="middle">512 token max</text>
+            <text x="352" y="120" font-family="'Inter',sans-serif" font-size="10" fill="#6B5E47" text-anchor="middle">64 token overlap</text>
+            <text x="352" y="136" font-family="'JetBrains Mono',monospace" font-size="9" fill="#8C7A52" text-anchor="middle">cl100k_base tokeniser</text>
 
             <!-- Arrow 2→3 -->
-            <line x1="408" y1="92" x2="432" y2="92" stroke="#8C7A52" stroke-width="1.5" marker-end="url(#arr)"/>
+            <line x1="450" y1="99" x2="470" y2="99" stroke="#8C7A52" stroke-width="1.5" marker-end="url(#arr)"/>
 
             <!-- Box 3: Embed -->
-            <rect x="432" y="48" width="176" height="88" rx="5" fill="#EEE0BC" stroke="#B8391F" stroke-width="1.5"/>
-            <text x="520" y="80" font-family="'JetBrains Mono',monospace" font-size="11" font-weight="700" fill="#2A2117" text-anchor="middle">Cohere Embed v3</text>
-            <text x="520" y="97" font-family="'Inter',sans-serif" font-size="10" fill="#6B5E47" text-anchor="middle">embed-english-v3.0</text>
-            <text x="520" y="112" font-family="'JetBrains Mono',monospace" font-size="9.5" fill="#8C7A52" text-anchor="middle">search_document</text>
+            <rect x="470" y="46" width="196" height="106" rx="6" fill="#EEE0BC" stroke="#B8391F" stroke-width="1.5"/>
+            <rect x="470" y="46" width="196" height="5" rx="6" fill="#B8391F"/>
+            <text x="568" y="77" font-family="'JetBrains Mono',monospace" font-size="11" font-weight="700" fill="#2A2117" text-anchor="middle">Cohere Embed v3</text>
+            <text x="568" y="95" font-family="'Inter',sans-serif" font-size="10" fill="#6B5E47" text-anchor="middle">embed-english-v3.0</text>
+            <text x="568" y="111" font-family="'JetBrains Mono',monospace" font-size="9" fill="#8C7A52" text-anchor="middle">search_document</text>
+            <text x="568" y="127" font-family="'Inter',sans-serif" font-size="10" fill="#6B5E47" text-anchor="middle">float32 vectors</text>
 
             <!-- Arrow 3→4 -->
-            <line x1="608" y1="92" x2="632" y2="92" stroke="#8C7A52" stroke-width="1.5" marker-end="url(#arr)"/>
+            <line x1="666" y1="99" x2="686" y2="99" stroke="#8C7A52" stroke-width="1.5" marker-end="url(#arr)"/>
 
             <!-- Box 4: ChromaDB -->
-            <rect x="632" y="48" width="176" height="88" rx="5" fill="#EEE0BC" stroke="#8C7A52" stroke-width="1.5"/>
-            <text x="720" y="80" font-family="'JetBrains Mono',monospace" font-size="11" font-weight="700" fill="#2A2117" text-anchor="middle">ChromaDB</text>
-            <text x="720" y="97" font-family="'Inter',sans-serif" font-size="10" fill="#6B5E47" text-anchor="middle">HNSW index</text>
-            <text x="720" y="112" font-family="'Inter',sans-serif" font-size="10" fill="#6B5E47" text-anchor="middle">cosine similarity</text>
+            <rect x="686" y="46" width="196" height="106" rx="6" fill="#EEE0BC" stroke="#B8391F" stroke-width="1.5"/>
+            <rect x="686" y="46" width="196" height="5" rx="6" fill="#B8391F"/>
+            <text x="784" y="77" font-family="'JetBrains Mono',monospace" font-size="11" font-weight="700" fill="#2A2117" text-anchor="middle">ChromaDB</text>
+            <text x="784" y="95" font-family="'Inter',sans-serif" font-size="10" fill="#6B5E47" text-anchor="middle">HNSW index</text>
+            <text x="784" y="111" font-family="'Inter',sans-serif" font-size="10" fill="#6B5E47" text-anchor="middle">cosine similarity</text>
+            <text x="784" y="127" font-family="'Inter',sans-serif" font-size="10" fill="#6B5E47" text-anchor="middle">persistent on disk</text>
 
             <!-- QUERY TIME zone -->
-            <rect x="12" y="174" width="816" height="154" rx="6" fill="#DDD0A2" stroke="#8C7A52" stroke-width="1.5" stroke-dasharray="6 4"/>
-            <text x="28" y="193" font-family="'JetBrains Mono',monospace" font-size="10" font-weight="700" fill="#6B5E47" letter-spacing="0.1em">QUERY TIME — every request</text>
+            <rect x="12" y="180" width="896" height="180" rx="7" fill="#DDD0A2" stroke="#8C7A52" stroke-width="1.5" stroke-dasharray="6 4"/>
+            <text x="28" y="200" font-family="'JetBrains Mono',monospace" font-size="10" font-weight="700" fill="#6B5E47" letter-spacing="0.1em">QUERY TIME — every request</text>
 
-            <!-- User Query box -->
-            <rect x="32" y="200" width="116" height="72" rx="5" fill="#EEE0BC" stroke="#B8391F" stroke-width="2"/>
-            <text x="90" y="232" font-family="'JetBrains Mono',monospace" font-size="11" font-weight="700" fill="#2A2117" text-anchor="middle">User Query</text>
-            <text x="90" y="249" font-family="'Inter',sans-serif" font-size="10" fill="#6B5E47" text-anchor="middle">natural language</text>
+            <!-- User Query -->
+            <rect x="38" y="208" width="140" height="90" rx="6" fill="#EEE0BC" stroke="#B8391F" stroke-width="1.5"/>
+            <rect x="38" y="208" width="140" height="5" rx="6" fill="#B8391F"/>
+            <text x="108" y="242" font-family="'JetBrains Mono',monospace" font-size="11" font-weight="700" fill="#2A2117" text-anchor="middle">User Query</text>
+            <text x="108" y="260" font-family="'Inter',sans-serif" font-size="10" fill="#6B5E47" text-anchor="middle">natural language</text>
+            <text x="108" y="276" font-family="'JetBrains Mono',monospace" font-size="9" fill="#8C7A52" text-anchor="middle">search_query</text>
 
-            <!-- Split arrows from User Query -->
-            <polyline points="148,220 168,220 168,210" stroke="#8C7A52" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
-            <polyline points="148,252 168,252 168,268" stroke="#8C7A52" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
+            <!-- Orthogonal split: right edge of User Query = 178 -->
+            <!-- Junction at x=194 -->
+            <line x1="178" y1="253" x2="194" y2="253" stroke="#8C7A52" stroke-width="1.5"/>
+            <line x1="194" y1="227" x2="194" y2="305" stroke="#8C7A52" stroke-width="1.5"/>
+            <line x1="194" y1="227" x2="210" y2="227" stroke="#8C7A52" stroke-width="1.5" marker-end="url(#arr)"/>
+            <line x1="194" y1="305" x2="210" y2="305" stroke="#8C7A52" stroke-width="1.5" marker-end="url(#arr)"/>
 
-            <!-- Dense Retrieval box -->
-            <rect x="172" y="196" width="152" height="56" rx="5" fill="#EEE0BC" stroke="#8C7A52" stroke-width="1.5"/>
-            <text x="248" y="222" font-family="'JetBrains Mono',monospace" font-size="11" font-weight="700" fill="#2A2117" text-anchor="middle">Dense Retrieval</text>
-            <text x="248" y="239" font-family="'Inter',sans-serif" font-size="10" fill="#6B5E47" text-anchor="middle">cosine sim · top 20</text>
+            <!-- Dense Retrieval -->
+            <rect x="210" y="205" width="180" height="66" rx="6" fill="#EEE0BC" stroke="#B8391F" stroke-width="1.5"/>
+            <rect x="210" y="205" width="180" height="5" rx="6" fill="#B8391F"/>
+            <text x="300" y="231" font-family="'JetBrains Mono',monospace" font-size="11" font-weight="700" fill="#2A2117" text-anchor="middle">Dense Retrieval</text>
+            <text x="300" y="249" font-family="'Inter',sans-serif" font-size="10" fill="#6B5E47" text-anchor="middle">cosine sim · top 20</text>
 
-            <!-- Sparse BM25 box -->
-            <rect x="172" y="262" width="152" height="56" rx="5" fill="#EEE0BC" stroke="#8C7A52" stroke-width="1.5"/>
-            <text x="248" y="288" font-family="'JetBrains Mono',monospace" font-size="11" font-weight="700" fill="#2A2117" text-anchor="middle">Sparse BM25</text>
-            <text x="248" y="305" font-family="'Inter',sans-serif" font-size="10" fill="#6B5E47" text-anchor="middle">keyword · top 20</text>
+            <!-- Sparse BM25 -->
+            <rect x="210" y="283" width="180" height="66" rx="6" fill="#EEE0BC" stroke="#B8391F" stroke-width="1.5"/>
+            <rect x="210" y="283" width="180" height="5" rx="6" fill="#B8391F"/>
+            <text x="300" y="309" font-family="'JetBrains Mono',monospace" font-size="11" font-weight="700" fill="#2A2117" text-anchor="middle">Sparse BM25</text>
+            <text x="300" y="327" font-family="'Inter',sans-serif" font-size="10" fill="#6B5E47" text-anchor="middle">keyword · top 20</text>
 
-            <!-- Merge arrows to RRF -->
-            <polyline points="324,224 346,224 346,244" stroke="#8C7A52" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
-            <polyline points="324,290 346,290 346,270" stroke="#8C7A52" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
+            <!-- Merge into RRF: Dense right=390, BM25 right=390, junction x=406 -->
+            <line x1="390" y1="238" x2="406" y2="238" stroke="#8C7A52" stroke-width="1.5"/>
+            <line x1="390" y1="316" x2="406" y2="316" stroke="#8C7A52" stroke-width="1.5"/>
+            <line x1="406" y1="238" x2="406" y2="316" stroke="#8C7A52" stroke-width="1.5"/>
+            <line x1="406" y1="277" x2="422" y2="277" stroke="#8C7A52" stroke-width="1.5" marker-end="url(#arr)"/>
 
-            <!-- RRF box -->
-            <rect x="346" y="218" width="136" height="66" rx="5" fill="#EEE0BC" stroke="#B8391F" stroke-width="1.5"/>
-            <text x="414" y="246" font-family="'JetBrains Mono',monospace" font-size="11" font-weight="700" fill="#2A2117" text-anchor="middle">RRF Fusion</text>
-            <text x="414" y="263" font-family="'Inter',sans-serif" font-size="10" fill="#6B5E47" text-anchor="middle">k=60 · merged top 20</text>
+            <!-- RRF Fusion -->
+            <rect x="422" y="245" width="152" height="64" rx="6" fill="#EEE0BC" stroke="#B8391F" stroke-width="1.5"/>
+            <rect x="422" y="245" width="152" height="5" rx="6" fill="#B8391F"/>
+            <text x="498" y="271" font-family="'JetBrains Mono',monospace" font-size="11" font-weight="700" fill="#2A2117" text-anchor="middle">RRF Fusion</text>
+            <text x="498" y="289" font-family="'Inter',sans-serif" font-size="10" fill="#6B5E47" text-anchor="middle">k=60 · merged top 20</text>
 
             <!-- Arrow RRF → Rerank -->
-            <line x1="482" y1="251" x2="506" y2="251" stroke="#8C7A52" stroke-width="1.5" marker-end="url(#arr)"/>
+            <line x1="574" y1="277" x2="592" y2="277" stroke="#8C7A52" stroke-width="1.5" marker-end="url(#arr)"/>
 
-            <!-- Rerank box -->
-            <rect x="506" y="218" width="142" height="66" rx="5" fill="#EEE0BC" stroke="#B8391F" stroke-width="1.5"/>
-            <text x="577" y="246" font-family="'JetBrains Mono',monospace" font-size="11" font-weight="700" fill="#2A2117" text-anchor="middle">Rerank v4</text>
-            <text x="577" y="263" font-family="'Inter',sans-serif" font-size="10" fill="#6B5E47" text-anchor="middle">cross-encoder · top 5</text>
+            <!-- Rerank v4 -->
+            <rect x="592" y="245" width="152" height="64" rx="6" fill="#EEE0BC" stroke="#B8391F" stroke-width="1.5"/>
+            <rect x="592" y="245" width="152" height="5" rx="6" fill="#B8391F"/>
+            <text x="668" y="271" font-family="'JetBrains Mono',monospace" font-size="11" font-weight="700" fill="#2A2117" text-anchor="middle">Rerank v4</text>
+            <text x="668" y="289" font-family="'Inter',sans-serif" font-size="10" fill="#6B5E47" text-anchor="middle">cross-encoder · top 5</text>
 
             <!-- Arrow Rerank → Claude -->
-            <line x1="648" y1="251" x2="672" y2="251" stroke="#8C7A52" stroke-width="1.5" marker-end="url(#arr)"/>
+            <line x1="744" y1="277" x2="762" y2="277" stroke="#8C7A52" stroke-width="1.5" marker-end="url(#arr)"/>
 
-            <!-- Claude box -->
-            <rect x="672" y="218" width="144" height="66" rx="5" fill="#EEE0BC" stroke="#B8391F" stroke-width="2"/>
-            <text x="744" y="246" font-family="'JetBrains Mono',monospace" font-size="11" font-weight="700" fill="#2A2117" text-anchor="middle">Claude Sonnet</text>
-            <text x="744" y="263" font-family="'Inter',sans-serif" font-size="10" fill="#6B5E47" text-anchor="middle">grounded answer</text>
+            <!-- Claude Sonnet -->
+            <rect x="762" y="245" width="152" height="64" rx="6" fill="#EEE0BC" stroke="#B8391F" stroke-width="1.5"/>
+            <rect x="762" y="245" width="152" height="5" rx="6" fill="#B8391F"/>
+            <text x="838" y="271" font-family="'JetBrains Mono',monospace" font-size="11" font-weight="700" fill="#2A2117" text-anchor="middle">Claude Sonnet</text>
+            <text x="838" y="289" font-family="'Inter',sans-serif" font-size="10" fill="#6B5E47" text-anchor="middle">grounded answer</text>
           </svg>
         </div>
 
@@ -324,38 +319,14 @@
         <h3>Document types generated</h3>
         <table class="data-table">
           <thead>
-            <tr>
-              <th>Type</th>
-              <th>Count</th>
-              <th>What it represents</th>
-            </tr>
+            <tr><th>Type</th><th>Count</th><th>What it represents</th></tr>
           </thead>
           <tbody>
-            <tr>
-              <td>NCR (Non-Conformance Report)</td>
-              <td>150</td>
-              <td>A part that failed inspection — records the defect, part number, supplier, disposition</td>
-            </tr>
-            <tr>
-              <td>ECR (Engineering Change Request)</td>
-              <td>100</td>
-              <td>A formal request to change a drawing or specification</td>
-            </tr>
-            <tr>
-              <td>Supplier Audit</td>
-              <td>100</td>
-              <td>A quality audit of a supplier's manufacturing process</td>
-            </tr>
-            <tr>
-              <td>Corrective Action Report</td>
-              <td>100</td>
-              <td>Root cause analysis and action plan for a recurring defect</td>
-            </tr>
-            <tr>
-              <td>Incident Report</td>
-              <td>50</td>
-              <td>Safety or process incident during manufacturing</td>
-            </tr>
+            <tr><td>NCR (Non-Conformance Report)</td><td>150</td><td>A part that failed inspection — records the defect, part number, supplier, disposition</td></tr>
+            <tr><td>ECR (Engineering Change Request)</td><td>100</td><td>A formal request to change a drawing or specification</td></tr>
+            <tr><td>Supplier Audit</td><td>100</td><td>A quality audit of a supplier's manufacturing process</td></tr>
+            <tr><td>Corrective Action Report</td><td>100</td><td>Root cause analysis and action plan for a recurring defect</td></tr>
+            <tr><td>Incident Report</td><td>50</td><td>Safety or process incident during manufacturing</td></tr>
           </tbody>
         </table>
 
@@ -379,33 +350,13 @@ DEFECT_TYPES = [
         <h3>The sampling parameters used</h3>
         <table class="data-table">
           <thead>
-            <tr>
-              <th>Parameter</th>
-              <th>Value</th>
-              <th>Effect</th>
-            </tr>
+            <tr><th>Parameter</th><th>Value</th><th>Effect</th></tr>
           </thead>
           <tbody>
-            <tr>
-              <td>temperature</td>
-              <td>0.8</td>
-              <td>Controls how random and creative the output is. 0 = deterministic, 1.0 = very random. 0.8 allows varied narratives while staying coherent.</td>
-            </tr>
-            <tr>
-              <td>top_p</td>
-              <td>0.92</td>
-              <td>Nucleus sampling — controls how many word choices the model considers. Higher values produce more variety, which better resembles real enterprise data.</td>
-            </tr>
-            <tr>
-              <td>frequency_penalty</td>
-              <td>0.4</td>
-              <td>Reduces the chance of repeating the same word. At 0.4 it is a moderate setting — words can repeat a few times before being penalized.</td>
-            </tr>
-            <tr>
-              <td>max_tokens</td>
-              <td>800</td>
-              <td>Cap on output length. 800 tokens is roughly 600 words — enough for a complete narrative without runaway generation.</td>
-            </tr>
+            <tr><td>temperature</td><td>0.8</td><td>Controls how random and creative the output is. 0 = deterministic, 1.0 = very random. 0.8 allows varied narratives while staying coherent.</td></tr>
+            <tr><td>top_p</td><td>0.92</td><td>Nucleus sampling — controls how many word choices the model considers. Higher values produce more variety, which better resembles real enterprise data.</td></tr>
+            <tr><td>frequency_penalty</td><td>0.4</td><td>Reduces the chance of repeating the same word. At 0.4 it is a moderate setting — words can repeat a few times before being penalized.</td></tr>
+            <tr><td>max_tokens</td><td>800</td><td>Cap on output length. 800 tokens is roughly 600 words — enough for a complete narrative without runaway generation.</td></tr>
           </tbody>
         </table>
 
@@ -437,66 +388,59 @@ DEFECT_TYPES = [
           A query can reference information that spans two chunks. For example, an NCR could mention details that spill over a chunk boundary and land in the next chunk. To guard against this, consecutive chunks share a 64-token overlap, so the boundary content appears in both.
         </p>
 
-        <!-- ── CHUNKING DIAGRAM ── -->
+        <!-- ═══ CHUNKING DIAGRAM — equal-width chunks ═══ -->
         <div class="diagram-wrap">
-          <svg viewBox="0 0 780 188" width="780" height="188" xmlns="http://www.w3.org/2000/svg">
+          <svg viewBox="0 0 780 178" width="780" height="178" xmlns="http://www.w3.org/2000/svg">
             <defs>
-              <marker id="tick" markerWidth="1" markerHeight="8" refX="0.5" refY="4" orient="auto">
-                <line x1="0.5" y1="0" x2="0.5" y2="8" stroke="#8C7A52" stroke-width="1"/>
+              <marker id="arr2" markerWidth="6" markerHeight="5" refX="5" refY="2.5" orient="auto">
+                <polygon points="0 0, 6 2.5, 0 5" fill="#8C7A52"/>
               </marker>
             </defs>
 
-            <!-- Document bar -->
-            <rect x="20" y="14" width="740" height="32" rx="4" fill="#C8B98A" opacity="0.5"/>
-            <text x="390" y="35" font-family="'JetBrains Mono',monospace" font-size="11" font-weight="700" fill="#2A2117" text-anchor="middle">Source Document</text>
+            <!-- Source Document bar -->
+            <rect x="20" y="14" width="740" height="30" rx="4" fill="#C8B98A" opacity="0.45"/>
+            <text x="390" y="34" font-family="'JetBrains Mono',monospace" font-size="11" font-weight="700" fill="#2A2117" text-anchor="middle">Source Document</text>
 
-            <!-- Chunk 1 -->
-            <rect x="20" y="76" width="316" height="44" rx="4" fill="#EEE0BC" stroke="#8C7A52" stroke-width="1.5"/>
-            <text x="168" y="96" font-family="'JetBrains Mono',monospace" font-size="11" font-weight="700" fill="#2A2117" text-anchor="middle">Chunk 1</text>
-            <text x="168" y="112" font-family="'Inter',sans-serif" font-size="10" fill="#6B5E47" text-anchor="middle">≤ 512 tokens</text>
+            <!-- Chunk bars — each 284px wide, 56px overlap -->
+            <!-- Chunk 1: x=20, w=284, right=304 -->
+            <rect x="20" y="72" width="284" height="46" rx="4" fill="#EEE0BC" stroke="#B8391F" stroke-width="1.5"/>
+            <rect x="20" y="72" width="284" height="5" rx="4" fill="#B8391F"/>
+            <text x="162" y="96" font-family="'JetBrains Mono',monospace" font-size="11" font-weight="700" fill="#2A2117" text-anchor="middle">Chunk 1</text>
+            <text x="162" y="111" font-family="'Inter',sans-serif" font-size="10" fill="#6B5E47" text-anchor="middle">≤ 512 tokens</text>
 
-            <!-- Chunk 2 -->
-            <rect x="252" y="76" width="316" height="44" rx="4" fill="#EEE0BC" stroke="#8C7A52" stroke-width="1.5"/>
-            <text x="410" y="96" font-family="'JetBrains Mono',monospace" font-size="11" font-weight="700" fill="#2A2117" text-anchor="middle">Chunk 2</text>
-            <text x="410" y="112" font-family="'Inter',sans-serif" font-size="10" fill="#6B5E47" text-anchor="middle">≤ 512 tokens</text>
+            <!-- Chunk 2: x=248, w=284, right=532 -->
+            <rect x="248" y="72" width="284" height="46" rx="4" fill="#EEE0BC" stroke="#B8391F" stroke-width="1.5"/>
+            <rect x="248" y="72" width="284" height="5" rx="4" fill="#B8391F"/>
+            <text x="390" y="96" font-family="'JetBrains Mono',monospace" font-size="11" font-weight="700" fill="#2A2117" text-anchor="middle">Chunk 2</text>
+            <text x="390" y="111" font-family="'Inter',sans-serif" font-size="10" fill="#6B5E47" text-anchor="middle">≤ 512 tokens</text>
 
-            <!-- Chunk 3 -->
-            <rect x="484" y="76" width="276" height="44" rx="4" fill="#EEE0BC" stroke="#8C7A52" stroke-width="1.5"/>
-            <text x="622" y="96" font-family="'JetBrains Mono',monospace" font-size="11" font-weight="700" fill="#2A2117" text-anchor="middle">Chunk 3</text>
-            <text x="622" y="112" font-family="'Inter',sans-serif" font-size="10" fill="#6B5E47" text-anchor="middle">≤ 512 tokens</text>
+            <!-- Chunk 3: x=476, w=284, right=760 -->
+            <rect x="476" y="72" width="284" height="46" rx="4" fill="#EEE0BC" stroke="#B8391F" stroke-width="1.5"/>
+            <rect x="476" y="72" width="284" height="5" rx="4" fill="#B8391F"/>
+            <text x="618" y="96" font-family="'JetBrains Mono',monospace" font-size="11" font-weight="700" fill="#2A2117" text-anchor="middle">Chunk 3</text>
+            <text x="618" y="111" font-family="'Inter',sans-serif" font-size="10" fill="#6B5E47" text-anchor="middle">≤ 512 tokens</text>
 
-            <!-- Overlap 1/2 highlight -->
-            <rect x="252" y="76" width="84" height="44" rx="0" fill="#B8391F" opacity="0.18"/>
-            <rect x="252" y="76" width="2" height="44" fill="#B8391F" opacity="0.6"/>
-            <rect x="334" y="76" width="2" height="44" fill="#B8391F" opacity="0.6"/>
+            <!-- Overlap 1/2: x=248 to x=304, width=56 -->
+            <rect x="248" y="72" width="56" height="46" fill="#B8391F" opacity="0.2"/>
+            <!-- Overlap 2/3: x=476 to x=532, width=56 -->
+            <rect x="476" y="72" width="56" height="46" fill="#B8391F" opacity="0.2"/>
 
-            <!-- Overlap 2/3 highlight -->
-            <rect x="484" y="76" width="84" height="44" rx="0" fill="#B8391F" opacity="0.18"/>
-            <rect x="484" y="76" width="2" height="44" fill="#B8391F" opacity="0.6"/>
-            <rect x="566" y="76" width="2" height="44" fill="#B8391F" opacity="0.6"/>
+            <!-- Overlap bracket 1/2 -->
+            <line x1="248" y1="130" x2="304" y2="130" stroke="#B8391F" stroke-width="1.5"/>
+            <line x1="248" y1="124" x2="248" y2="136" stroke="#B8391F" stroke-width="1.5"/>
+            <line x1="304" y1="124" x2="304" y2="136" stroke="#B8391F" stroke-width="1.5"/>
+            <text x="276" y="150" font-family="'JetBrains Mono',monospace" font-size="9.5" fill="#B8391F" text-anchor="middle">64 tokens overlap</text>
 
-            <!-- Overlap label 1/2 -->
-            <line x1="252" y1="136" x2="336" y2="136" stroke="#B8391F" stroke-width="1"/>
-            <line x1="252" y1="130" x2="252" y2="142" stroke="#B8391F" stroke-width="1"/>
-            <line x1="336" y1="130" x2="336" y2="142" stroke="#B8391F" stroke-width="1"/>
-            <text x="294" y="154" font-family="'JetBrains Mono',monospace" font-size="9.5" fill="#B8391F" text-anchor="middle">64 tokens overlap</text>
+            <!-- Overlap bracket 2/3 -->
+            <line x1="476" y1="130" x2="532" y2="130" stroke="#B8391F" stroke-width="1.5"/>
+            <line x1="476" y1="124" x2="476" y2="136" stroke="#B8391F" stroke-width="1.5"/>
+            <line x1="532" y1="124" x2="532" y2="136" stroke="#B8391F" stroke-width="1.5"/>
+            <text x="504" y="150" font-family="'JetBrains Mono',monospace" font-size="9.5" fill="#B8391F" text-anchor="middle">64 tokens overlap</text>
 
-            <!-- Overlap label 2/3 -->
-            <line x1="484" y1="136" x2="568" y2="136" stroke="#B8391F" stroke-width="1"/>
-            <line x1="484" y1="130" x2="484" y2="142" stroke="#B8391F" stroke-width="1"/>
-            <line x1="568" y1="130" x2="568" y2="142" stroke="#B8391F" stroke-width="1"/>
-            <text x="526" y="154" font-family="'JetBrains Mono',monospace" font-size="9.5" fill="#B8391F" text-anchor="middle">64 tokens overlap</text>
-
-            <!-- Bracket lines from document down to chunks -->
-            <line x1="178" y1="46" x2="178" y2="74" stroke="#8C7A52" stroke-width="1" stroke-dasharray="3 2" opacity="0.5"/>
-            <line x1="410" y1="46" x2="410" y2="74" stroke="#8C7A52" stroke-width="1" stroke-dasharray="3 2" opacity="0.5"/>
-            <line x1="622" y1="46" x2="622" y2="74" stroke="#8C7A52" stroke-width="1" stroke-dasharray="3 2" opacity="0.5"/>
-
-            <!-- Chunk 512 width labels -->
-            <line x1="20" y1="172" x2="336" y2="172" stroke="#8C7A52" stroke-width="1" opacity="0.5"/>
-            <line x1="20" y1="166" x2="20" y2="178" stroke="#8C7A52" stroke-width="1" opacity="0.5"/>
-            <line x1="336" y1="166" x2="336" y2="178" stroke="#8C7A52" stroke-width="1" opacity="0.5"/>
-            <text x="178" y="184" font-family="'Inter',sans-serif" font-size="9" fill="#8C7A52" text-anchor="middle">chunk window</text>
+            <!-- Connector lines from document to chunk centres -->
+            <line x1="162" y1="44" x2="162" y2="70" stroke="#8C7A52" stroke-width="1" stroke-dasharray="3 2" opacity="0.5"/>
+            <line x1="390" y1="44" x2="390" y2="70" stroke="#8C7A52" stroke-width="1" stroke-dasharray="3 2" opacity="0.5"/>
+            <line x1="618" y1="44" x2="618" y2="70" stroke="#8C7A52" stroke-width="1" stroke-dasharray="3 2" opacity="0.5"/>
           </svg>
         </div>
 
@@ -504,9 +448,7 @@ DEFECT_TYPES = [
         <p>
           Once documents are chunked, the next step is converting each chunk into a vector — a fixed-length list of floating point numbers that represents its semantic meaning. This is what allows the system to search by meaning rather than just keywords. Similar chunks produce vectors that are close together in a high-dimensional space, even if they share no exact words.
         </p>
-        <p>
-          For this project I used Cohere's Embed v3 model (<code>embed-english-v3.0</code>).
-        </p>
+        <p>For this project I used Cohere's Embed v3 model (<code>embed-english-v3.0</code>).</p>
 
         <h3>The input_type distinction</h3>
         <p>
@@ -534,9 +476,7 @@ embed_query(text)       # input_type = "search_query"</code></pre>
         <p>
           ChromaDB is an open-source vector database. It stores triples of (vector, document, metadata) and supports fast approximate nearest-neighbour search. The vectors are stored on disk and persist between sessions, so you only need to embed your documents once.
         </p>
-        <p>
-          For this project the vectors are stored in a named collection (<code>mfg_rag_cohere_v3</code>) within ChromaDB's persistent directory on disk.
-        </p>
+        <p>For this project the vectors are stored in a named collection (<code>mfg_rag_cohere_v3</code>) within ChromaDB's persistent directory on disk.</p>
 
         <h3>Why cosine similarity?</h3>
         <p>
@@ -580,9 +520,7 @@ embed_query(text)       # input_type = "search_query"</code></pre>
         <p>
           We now have two ranked lists of 20 candidates each, and they may overlap partially. The question is: how do we merge them into a single ranked list in a principled way?
         </p>
-        <p>
-          The answer is Reciprocal Rank Fusion, from Cormack, Clarke &amp; Buettcher (SIGIR 2009). The formula is:
-        </p>
+        <p>The answer is Reciprocal Rank Fusion, from Cormack, Clarke &amp; Buettcher (SIGIR 2009). The formula is:</p>
 
         <div class="formula-block">RRF_score(d) = &sum;    1 / (k + rank(d))
                lists
@@ -594,9 +532,7 @@ embed_query(text)       # input_type = "search_query"</code></pre>
         <p>
           The constant <code>k = 60</code> controls how aggressively top ranks are rewarded. It was empirically shown to generalize well across retrieval tasks without dataset-specific tuning, which is why it became the standard default.
         </p>
-        <p>
-          The output of RRF is a single merged list. We pass the top 20 fused candidates to the reranker.
-        </p>
+        <p>The output of RRF is a single merged list. We pass the top 20 fused candidates to the reranker.</p>
 
         <h2>Reranking with Cohere Rerank v4</h2>
         <p>
@@ -632,9 +568,7 @@ When referencing specific information, cite the document ID (e.g. "per NCR-2024-
         </p>
 
         <h2>Evaluation Harness</h2>
-        <p>
-          A pipeline that "works" is not the same as a pipeline that is measurably good. The evaluation harness provides the numbers.
-        </p>
+        <p>A pipeline that "works" is not the same as a pipeline that is measurably good. The evaluation harness provides the numbers.</p>
 
         <h3>The golden dataset</h3>
         <p>
@@ -673,6 +607,167 @@ When referencing specific information, cite the document ID (e.g. "per NCR-2024-
           <li>Expand the golden dataset to 100+ queries using LLM-generated questions from document text</li>
           <li>Explore unstructured and multimodal data in future iterations</li>
         </ul>
+
+        <h2>Comprehensive Diagram of the Process</h2>
+        <p>A full annotated view of both phases — index time and query time — with every step, parameter, and output described.</p>
+
+        <!-- ═══ COMPREHENSIVE DIAGRAM (inline SVG from standalone diagram) ═══ -->
+        <div class="diagram-wrap">
+          <svg viewBox="0 0 1060 870" style="min-width: 900px; width: 100%; height: auto;" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <marker id="carr" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto">
+                <polygon points="0 0, 9 3.5, 0 7" fill="#8C7A52"/>
+              </marker>
+              <marker id="carr-accent" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto">
+                <polygon points="0 0, 9 3.5, 0 7" fill="#B8391F"/>
+              </marker>
+            </defs>
+
+            <!-- INDEX TIME ZONE -->
+            <rect x="16" y="16" width="490" height="832" rx="12" fill="#EBD9A5" stroke="#8C7A52" stroke-width="1.5" stroke-dasharray="6 4"/>
+            <text x="36" y="43" font-family="'JetBrains Mono',monospace" font-size="10" font-weight="700" fill="#B8391F" letter-spacing="0.1em">INDEX TIME — run once</text>
+
+            <!-- QUERY TIME ZONE -->
+            <rect x="554" y="16" width="490" height="832" rx="12" fill="#EAD8A2" stroke="#8C7A52" stroke-width="1.5" stroke-dasharray="6 4"/>
+            <text x="574" y="43" font-family="'JetBrains Mono',monospace" font-size="10" font-weight="700" fill="#6B5E47" letter-spacing="0.1em">QUERY TIME — every request</text>
+
+            <!-- Node 1: Synthetic Data Gen -->
+            <rect x="40" y="60" width="442" height="138" rx="8" fill="#EEE0BC" stroke="#B8391F" stroke-width="1.5"/>
+            <rect x="40" y="60" width="442" height="6" rx="8" fill="#B8391F"/>
+            <text x="64" y="90" font-family="'JetBrains Mono',monospace" font-size="12" font-weight="700" fill="#2A2117">① Synthetic Data Generation</text>
+            <line x1="64" y1="98" x2="462" y2="98" stroke="#8C7A52" stroke-width="0.75"/>
+            <text x="74" y="116" font-family="'Inter',sans-serif" font-size="11" fill="#6B5E47">• Llama 3.3 70B via OpenRouter</text>
+            <text x="74" y="133" font-family="'Inter',sans-serif" font-size="11" fill="#6B5E47">• 500 documents across 5 types:</text>
+            <text x="88" y="150" font-family="'JetBrains Mono',monospace" font-size="10" fill="#8C7A52">NCR (150) · ECR (100) · CAR (100) · Supplier Audit (100) · Incident (50)</text>
+            <text x="74" y="168" font-family="'Inter',sans-serif" font-size="11" fill="#6B5E47">• Domain vocabulary grounds output in aerospace QMS language</text>
+            <text x="74" y="185" font-family="'Inter',sans-serif" font-size="11" fill="#6B5E47">• Output: JSONL files in data/synthetic/</text>
+
+            <line x1="261" y1="198" x2="261" y2="220" stroke="#8C7A52" stroke-width="1.5" marker-end="url(#carr)"/>
+
+            <!-- Node 2: Chunking -->
+            <rect x="40" y="220" width="442" height="122" rx="8" fill="#EEE0BC" stroke="#B8391F" stroke-width="1.5"/>
+            <rect x="40" y="220" width="442" height="6" rx="8" fill="#B8391F"/>
+            <text x="64" y="250" font-family="'JetBrains Mono',monospace" font-size="12" font-weight="700" fill="#2A2117">② Token-Aware Chunking</text>
+            <line x1="64" y1="258" x2="462" y2="258" stroke="#8C7A52" stroke-width="0.75"/>
+            <text x="74" y="276" font-family="'Inter',sans-serif" font-size="11" fill="#6B5E47">• 512 token max chunk size (tiktoken cl100k_base)</text>
+            <text x="74" y="293" font-family="'Inter',sans-serif" font-size="11" fill="#6B5E47">• 64 token overlap — prevents sentences being cut across boundaries</text>
+            <text x="74" y="310" font-family="'Inter',sans-serif" font-size="11" fill="#6B5E47">• Sentence-boundary aware: splits on .!? not mid-sentence</text>
+            <text x="74" y="327" font-family="'Inter',sans-serif" font-size="11" fill="#6B5E47">• Output: data/chunks/ JSONL with full parent metadata preserved</text>
+
+            <line x1="261" y1="342" x2="261" y2="364" stroke="#8C7A52" stroke-width="1.5" marker-end="url(#carr)"/>
+
+            <!-- Node 3: Embedding -->
+            <rect x="40" y="364" width="442" height="122" rx="8" fill="#EEE0BC" stroke="#B8391F" stroke-width="1.5"/>
+            <rect x="40" y="364" width="442" height="6" rx="8" fill="#B8391F"/>
+            <text x="64" y="394" font-family="'JetBrains Mono',monospace" font-size="12" font-weight="700" fill="#2A2117">③ Cohere Embed v3</text>
+            <line x1="64" y1="402" x2="462" y2="402" stroke="#8C7A52" stroke-width="0.75"/>
+            <text x="74" y="420" font-family="'Inter',sans-serif" font-size="11" fill="#6B5E47">• Model: embed-english-v3.0</text>
+            <text x="74" y="437" font-family="'Inter',sans-serif" font-size="11" fill="#6B5E47">• input_type = "search_document" (wrong type silently degrades quality)</text>
+            <text x="74" y="454" font-family="'Inter',sans-serif" font-size="11" fill="#6B5E47">• Batch size: 96 texts/request · retry on rate limit (61s wait)</text>
+            <text x="74" y="471" font-family="'Inter',sans-serif" font-size="11" fill="#6B5E47">• Produces float32 dense vector for each chunk</text>
+
+            <line x1="261" y1="486" x2="261" y2="508" stroke="#8C7A52" stroke-width="1.5" marker-end="url(#carr)"/>
+
+            <!-- Node 4: ChromaDB -->
+            <rect x="40" y="508" width="442" height="122" rx="8" fill="#EEE0BC" stroke="#B8391F" stroke-width="1.5"/>
+            <rect x="40" y="508" width="442" height="6" rx="8" fill="#B8391F"/>
+            <text x="64" y="538" font-family="'JetBrains Mono',monospace" font-size="12" font-weight="700" fill="#2A2117">④ ChromaDB Vector Store</text>
+            <line x1="64" y1="546" x2="462" y2="546" stroke="#8C7A52" stroke-width="0.75"/>
+            <text x="74" y="564" font-family="'Inter',sans-serif" font-size="11" fill="#6B5E47">• Persistent on disk (chroma_db/) · cosine similarity metric</text>
+            <text x="74" y="581" font-family="'Inter',sans-serif" font-size="11" fill="#6B5E47">• Collection: mfg_rag_cohere_v3</text>
+            <text x="74" y="598" font-family="'Inter',sans-serif" font-size="11" fill="#6B5E47">• HNSW index: approximate nearest-neighbour, sub-linear query time</text>
+            <text x="74" y="615" font-family="'Inter',sans-serif" font-size="11" fill="#6B5E47">• Upsert-safe: re-running build_index.py won't duplicate vectors</text>
+
+            <!-- Query: User Query -->
+            <rect x="678" y="60" width="242" height="62" rx="8" fill="#EEE0BC" stroke="#B8391F" stroke-width="2"/>
+            <rect x="678" y="60" width="242" height="6" rx="8" fill="#B8391F"/>
+            <text x="799" y="88" font-family="'JetBrains Mono',monospace" font-size="12" font-weight="700" fill="#2A2117" text-anchor="middle">User Query</text>
+            <text x="799" y="107" font-family="'Inter',sans-serif" font-size="11" fill="#6B5E47" text-anchor="middle">natural language question</text>
+
+            <!-- Orthogonal split from User Query -->
+            <line x1="799" y1="122" x2="799" y2="148" stroke="#8C7A52" stroke-width="1.5"/>
+            <line x1="690" y1="148" x2="920" y2="148" stroke="#8C7A52" stroke-width="1.5"/>
+            <line x1="690" y1="148" x2="690" y2="220" stroke="#8C7A52" stroke-width="1.5" marker-end="url(#carr)"/>
+            <line x1="920" y1="148" x2="920" y2="220" stroke="#8C7A52" stroke-width="1.5" marker-end="url(#carr)"/>
+
+            <!-- Dense Retrieval -->
+            <rect x="578" y="220" width="232" height="150" rx="8" fill="#EEE0BC" stroke="#B8391F" stroke-width="1.5"/>
+            <rect x="578" y="220" width="232" height="6" rx="8" fill="#B8391F"/>
+            <text x="694" y="250" font-family="'JetBrains Mono',monospace" font-size="11" font-weight="700" fill="#2A2117" text-anchor="middle">Dense Retrieval</text>
+            <line x1="598" y1="258" x2="790" y2="258" stroke="#8C7A52" stroke-width="0.75"/>
+            <text x="598" y="275" font-family="'Inter',sans-serif" font-size="10.5" fill="#6B5E47">• Cohere Embed query</text>
+            <text x="608" y="291" font-family="'JetBrains Mono',monospace" font-size="9.5" fill="#8C7A52">input_type="search_query"</text>
+            <text x="598" y="308" font-family="'Inter',sans-serif" font-size="10.5" fill="#6B5E47">• ChromaDB ANN search</text>
+            <text x="598" y="325" font-family="'Inter',sans-serif" font-size="10.5" fill="#6B5E47">• Top-20 by cosine similarity</text>
+            <text x="598" y="342" font-family="'Inter',sans-serif" font-size="10.5" fill="#6B5E47">• score = 1 − cosine_distance</text>
+            <text x="598" y="358" font-family="'JetBrains Mono',monospace" font-size="10" fill="#B8391F">→ 20 ranked results</text>
+
+            <!-- Sparse Retrieval -->
+            <rect x="830" y="220" width="200" height="150" rx="8" fill="#EEE0BC" stroke="#B8391F" stroke-width="1.5"/>
+            <rect x="830" y="220" width="200" height="6" rx="8" fill="#B8391F"/>
+            <text x="930" y="250" font-family="'JetBrains Mono',monospace" font-size="11" font-weight="700" fill="#2A2117" text-anchor="middle">Sparse Retrieval</text>
+            <line x1="848" y1="258" x2="1012" y2="258" stroke="#8C7A52" stroke-width="0.75"/>
+            <text x="848" y="275" font-family="'Inter',sans-serif" font-size="10.5" fill="#6B5E47">• BM25Okapi (rank-bm25)</text>
+            <text x="848" y="291" font-family="'Inter',sans-serif" font-size="10.5" fill="#6B5E47">• All chunks in memory</text>
+            <text x="848" y="307" font-family="'Inter',sans-serif" font-size="10.5" fill="#6B5E47">• TF · IDF · length norm</text>
+            <text x="848" y="323" font-family="'Inter',sans-serif" font-size="10.5" fill="#6B5E47">• Exact keyword match</text>
+            <text x="848" y="339" font-family="'Inter',sans-serif" font-size="10.5" fill="#6B5E47">• Top-20, score &gt; 0 only</text>
+            <text x="848" y="358" font-family="'JetBrains Mono',monospace" font-size="10" fill="#B8391F">→ 20 ranked results</text>
+
+            <!-- Merge arrows to RRF -->
+            <line x1="694" y1="370" x2="694" y2="396" stroke="#8C7A52" stroke-width="1.5"/>
+            <line x1="930" y1="370" x2="930" y2="396" stroke="#8C7A52" stroke-width="1.5"/>
+            <line x1="694" y1="396" x2="930" y2="396" stroke="#8C7A52" stroke-width="1.5"/>
+            <line x1="812" y1="396" x2="812" y2="420" stroke="#8C7A52" stroke-width="1.5" marker-end="url(#carr)"/>
+
+            <!-- RRF Fusion -->
+            <rect x="578" y="420" width="468" height="122" rx="8" fill="#EEE0BC" stroke="#B8391F" stroke-width="1.5"/>
+            <rect x="578" y="420" width="468" height="6" rx="8" fill="#B8391F"/>
+            <text x="812" y="450" font-family="'JetBrains Mono',monospace" font-size="12" font-weight="700" fill="#2A2117" text-anchor="middle">⑤ RRF Fusion</text>
+            <line x1="598" y1="458" x2="1026" y2="458" stroke="#8C7A52" stroke-width="0.75"/>
+            <text x="606" y="476" font-family="'Inter',sans-serif" font-size="11" fill="#6B5E47">• score(d) = Σ 1/(k + rank)  where k = 60</text>
+            <text x="606" y="493" font-family="'Inter',sans-serif" font-size="11" fill="#6B5E47">• Documents in both lists accumulate score from each</text>
+            <text x="606" y="510" font-family="'Inter',sans-serif" font-size="11" fill="#6B5E47">• Parameter-free — k=60 from Cormack et al. SIGIR 2009</text>
+            <text x="606" y="528" font-family="'JetBrains Mono',monospace" font-size="10" fill="#B8391F">→ Single merged list, top-20 passed to reranker</text>
+
+            <line x1="812" y1="542" x2="812" y2="564" stroke="#8C7A52" stroke-width="1.5" marker-end="url(#carr)"/>
+
+            <!-- Reranker -->
+            <rect x="578" y="564" width="468" height="122" rx="8" fill="#EEE0BC" stroke="#B8391F" stroke-width="1.5"/>
+            <rect x="578" y="564" width="468" height="6" rx="8" fill="#B8391F"/>
+            <text x="812" y="594" font-family="'JetBrains Mono',monospace" font-size="12" font-weight="700" fill="#2A2117" text-anchor="middle">⑥ Cohere Rerank v4</text>
+            <line x1="598" y1="602" x2="1026" y2="602" stroke="#8C7A52" stroke-width="0.75"/>
+            <text x="606" y="620" font-family="'Inter',sans-serif" font-size="11" fill="#6B5E47">• Cross-encoder: reads query and each doc together in one pass</text>
+            <text x="606" y="637" font-family="'Inter',sans-serif" font-size="11" fill="#6B5E47">• More accurate than bi-encoder but too slow for full corpus</text>
+            <text x="606" y="654" font-family="'Inter',sans-serif" font-size="11" fill="#6B5E47">• Model: rerank-v4.0-fast · rerank_score added to each result</text>
+            <text x="606" y="672" font-family="'JetBrains Mono',monospace" font-size="10" fill="#B8391F">→ Top-5 final chunks with relevance scores</text>
+
+            <line x1="812" y1="686" x2="812" y2="708" stroke="#8C7A52" stroke-width="1.5" marker-end="url(#carr)"/>
+
+            <!-- Claude Generator -->
+            <rect x="578" y="708" width="468" height="122" rx="8" fill="#EEE0BC" stroke="#B8391F" stroke-width="1.5"/>
+            <rect x="578" y="708" width="468" height="6" rx="8" fill="#B8391F"/>
+            <text x="812" y="738" font-family="'JetBrains Mono',monospace" font-size="12" font-weight="700" fill="#2A2117" text-anchor="middle">⑦ Claude Sonnet via OpenRouter</text>
+            <line x1="598" y1="746" x2="1026" y2="746" stroke="#8C7A52" stroke-width="0.75"/>
+            <text x="606" y="764" font-family="'Inter',sans-serif" font-size="11" fill="#6B5E47">• Receives top-5 chunks as numbered context [1]...[5]</text>
+            <text x="606" y="781" font-family="'Inter',sans-serif" font-size="11" fill="#6B5E47">• System prompt: answer ONLY from context, cite doc IDs</text>
+            <text x="606" y="798" font-family="'Inter',sans-serif" font-size="11" fill="#6B5E47">• No external knowledge — keeps evaluation honest</text>
+            <text x="606" y="818" font-family="'JetBrains Mono',monospace" font-size="10" fill="#B8391F">→ Grounded natural-language answer with citations</text>
+
+            <!-- Eval Harness -->
+            <rect x="40" y="652" width="442" height="196" rx="8" fill="#E8D5A0" stroke="#B8391F" stroke-width="1.5" stroke-dasharray="5 3"/>
+            <text x="64" y="678" font-family="'JetBrains Mono',monospace" font-size="11" font-weight="700" fill="#2A2117">⑧ Evaluation Harness</text>
+            <line x1="64" y1="686" x2="462" y2="686" stroke="#8C7A52" stroke-width="0.75"/>
+            <text x="74" y="704" font-family="'Inter',sans-serif" font-size="11" fill="#6B5E47">• 27 golden queries derived from metadata ground truth</text>
+            <text x="74" y="721" font-family="'Inter',sans-serif" font-size="11" fill="#6B5E47">• Metrics: Hit Rate@5 · MRR@5 · NDCG@5</text>
+            <text x="74" y="738" font-family="'Inter',sans-serif" font-size="11" fill="#6B5E47">• Cohere v3 results:</text>
+            <text x="88" y="755" font-family="'JetBrains Mono',monospace" font-size="10.5" fill="#B8391F">Hit Rate 0.89  ·  MRR 0.74  ·  NDCG 0.62</text>
+            <text x="74" y="774" font-family="'Inter',sans-serif" font-size="11" fill="#8C7A52">• Baseline (no reranker) comparison: run with --no-rerank flag</text>
+            <text x="74" y="791" font-family="'Inter',sans-serif" font-size="11" fill="#8C7A52">• Results saved to data/eval_results.json</text>
+            <text x="74" y="808" font-family="'Inter',sans-serif" font-size="11" fill="#8C7A52">• Next: expand to 100+ queries with LLM-generated questions</text>
+            <text x="74" y="825" font-family="'Inter',sans-serif" font-size="11" fill="#8C7A52">• Next: unstructured and multimodal data iterations</text>
+          </svg>
+        </div>
 
         <div class="repo-cta">
           <p>The full code, chunked data, and evaluation results are available on GitHub.</p>
