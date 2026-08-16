@@ -635,10 +635,9 @@ When referencing specific information, cite the document ID (e.g. "per NCR-2024-
             <text x="60" y="90" font-family="'JetBrains Mono',monospace" font-size="12" font-weight="700" fill="#2A2117">① Synthetic Data Generation</text>
             <line x1="60" y1="98" x2="462" y2="98" stroke="#8C7A52" stroke-width="0.75"/>
             <text x="70" y="116" font-family="'Inter',sans-serif" font-size="11" fill="#6B5E47">• Llama 3.3 70B via OpenRouter</text>
-            <text x="70" y="133" font-family="'Inter',sans-serif" font-size="11" fill="#6B5E47">• 500 documents across 5 types:</text>
-            <text x="84" y="150" font-family="'JetBrains Mono',monospace" font-size="10" fill="#8C7A52">NCR (150) · ECR (100) · CAR (100) · Supplier Audit (100) · Incident (50)</text>
-            <text x="70" y="168" font-family="'Inter',sans-serif" font-size="11" fill="#6B5E47">• Domain vocabulary grounds output in aerospace QMS language</text>
-            <text x="70" y="185" font-family="'Inter',sans-serif" font-size="11" fill="#6B5E47">• Output: JSONL files in data/synthetic/</text>
+            <text x="70" y="133" font-family="'Inter',sans-serif" font-size="11" fill="#6B5E47">• 500 docs: NCR (150) · ECR (100) · CAR (100) · Audit (100) · Incident (50)</text>
+            <text x="70" y="151" font-family="'Inter',sans-serif" font-size="11" fill="#6B5E47">• Domain vocabulary grounds output in aerospace QMS language</text>
+            <text x="70" y="169" font-family="'Inter',sans-serif" font-size="11" fill="#6B5E47">• Output: JSONL files in data/synthetic/</text>
             <line x1="261" y1="198" x2="261" y2="220" stroke="#8C7A52" stroke-width="1.5" marker-end="url(#carr)"/>
 
             <!-- Node 2: Token-Aware Chunking (y=220, h=122) -->
@@ -673,18 +672,22 @@ When referencing specific information, cite the document ID (e.g. "per NCR-2024-
             <text x="70" y="598" font-family="'Inter',sans-serif" font-size="11" fill="#6B5E47">• HNSW index: approximate nearest-neighbour, sub-linear query time</text>
             <text x="70" y="615" font-family="'Inter',sans-serif" font-size="11" fill="#6B5E47">• Upsert-safe: re-running build_index.py won't duplicate vectors</text>
 
-            <!-- Node 8: Evaluation Harness (y=652, h=196) — dashed, no accent bar -->
+            <!-- Arrow: Node 4 → Eval Harness -->
+            <line x1="261" y1="630" x2="261" y2="652" stroke="#8C7A52" stroke-width="1.5" marker-end="url(#carr)"/>
+
+            <!-- Node 8: Evaluation Harness (y=652, h=196) -->
             <rect x="40" y="652" width="442" height="196" rx="8" fill="#E8D5A0" stroke="#B8391F" stroke-width="1.5" stroke-dasharray="5 3"/>
-            <text x="60" y="678" font-family="'JetBrains Mono',monospace" font-size="12" font-weight="700" fill="#2A2117">⑧ Evaluation Harness</text>
-            <line x1="60" y1="686" x2="462" y2="686" stroke="#8C7A52" stroke-width="0.75"/>
-            <text x="70" y="704" font-family="'Inter',sans-serif" font-size="11" fill="#6B5E47">• 27 golden queries derived from metadata ground truth</text>
-            <text x="70" y="721" font-family="'Inter',sans-serif" font-size="11" fill="#6B5E47">• Metrics: Hit Rate@5 · MRR@5 · NDCG@5</text>
-            <text x="70" y="738" font-family="'Inter',sans-serif" font-size="11" fill="#6B5E47">• Cohere v3 results:</text>
-            <text x="84" y="755" font-family="'JetBrains Mono',monospace" font-size="10.5" fill="#B8391F">Hit Rate 0.89  ·  MRR 0.74  ·  NDCG 0.62</text>
-            <text x="70" y="774" font-family="'Inter',sans-serif" font-size="11" fill="#8C7A52">• Baseline (no reranker): run with --no-rerank flag</text>
-            <text x="70" y="791" font-family="'Inter',sans-serif" font-size="11" fill="#8C7A52">• Results saved to data/eval_results.json</text>
-            <text x="70" y="808" font-family="'Inter',sans-serif" font-size="11" fill="#8C7A52">• Next: expand to 100+ queries with LLM-generated questions</text>
-            <text x="70" y="825" font-family="'Inter',sans-serif" font-size="11" fill="#8C7A52">• Next: unstructured and multimodal data iterations</text>
+            <rect x="40" y="652" width="442" height="6" rx="8" fill="#B8391F"/>
+            <text x="60" y="680" font-family="'JetBrains Mono',monospace" font-size="12" font-weight="700" fill="#2A2117">⑧ Evaluation Harness</text>
+            <line x1="60" y1="688" x2="462" y2="688" stroke="#8C7A52" stroke-width="0.75"/>
+            <text x="70" y="706" font-family="'Inter',sans-serif" font-size="11" fill="#6B5E47">• 27 golden queries derived from metadata ground truth</text>
+            <text x="70" y="723" font-family="'Inter',sans-serif" font-size="11" fill="#6B5E47">• Metrics: Hit Rate@5 · MRR@5 · NDCG@5</text>
+            <text x="70" y="740" font-family="'Inter',sans-serif" font-size="11" fill="#6B5E47">• Cohere v3 results:</text>
+            <text x="84" y="757" font-family="'JetBrains Mono',monospace" font-size="10.5" fill="#B8391F">Hit Rate 0.89  ·  MRR 0.74  ·  NDCG 0.62</text>
+            <text x="70" y="776" font-family="'Inter',sans-serif" font-size="11" fill="#8C7A52">• Baseline (no reranker): run with --no-rerank flag</text>
+            <text x="70" y="793" font-family="'Inter',sans-serif" font-size="11" fill="#8C7A52">• Results saved to data/eval_results.json</text>
+            <text x="70" y="810" font-family="'Inter',sans-serif" font-size="11" fill="#8C7A52">• Next: expand to 100+ queries with LLM-generated questions</text>
+            <text x="70" y="827" font-family="'Inter',sans-serif" font-size="11" fill="#8C7A52">• Next: unstructured and multimodal data iterations</text>
 
             <!-- ── RIGHT COLUMN ── -->
             <!-- All nodes: x=578, w=466. Titles centered at x=811. Dividers x=598→x=1024. Bullets at x=598. -->
