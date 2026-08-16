@@ -196,118 +196,118 @@
 
         <!-- ═══ PIPELINE OVERVIEW DIAGRAM ═══ -->
         <div class="diagram-wrap">
-          <svg viewBox="0 0 920 372" style="width:100%;height:auto;max-width:920px" xmlns="http://www.w3.org/2000/svg">
+          <svg viewBox="0 0 760 370" style="width:100%;height:auto;" xmlns="http://www.w3.org/2000/svg">
             <defs>
               <marker id="arr" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
                 <polygon points="0 0, 8 3, 0 6" fill="#8C7A52"/>
               </marker>
             </defs>
 
-            <!-- INDEX TIME zone -->
-            <rect x="12" y="12" width="896" height="158" rx="7" fill="#E4D5A6" stroke="#8C7A52" stroke-width="1.5" stroke-dasharray="6 4"/>
-            <text x="28" y="33" font-family="'JetBrains Mono',monospace" font-size="10" font-weight="700" fill="#B8391F" letter-spacing="0.1em">INDEX TIME — run once</text>
+            <!-- INDEX TIME zone: x=8, y=8, w=744, h=155 -->
+            <rect x="8" y="8" width="744" height="155" rx="7" fill="#E4D5A6" stroke="#8C7A52" stroke-width="1.5" stroke-dasharray="6 4"/>
+            <text x="24" y="28" font-family="'JetBrains Mono',monospace" font-size="10" font-weight="700" fill="#B8391F" letter-spacing="0.1em">INDEX TIME — run once</text>
 
-            <!-- Box 1: Synthetic Data Gen -->
-            <rect x="38" y="46" width="196" height="106" rx="6" fill="#EEE0BC" stroke="#B8391F" stroke-width="1.5"/>
-            <rect x="38" y="46" width="196" height="5" rx="6" fill="#B8391F"/>
-            <text x="136" y="77" font-family="'JetBrains Mono',monospace" font-size="11" font-weight="700" fill="#2A2117" text-anchor="middle">Synthetic Data Gen</text>
-            <text x="136" y="95" font-family="'Inter',sans-serif" font-size="10" fill="#6B5E47" text-anchor="middle">Llama 3.3 70B</text>
-            <text x="136" y="111" font-family="'Inter',sans-serif" font-size="10" fill="#6B5E47" text-anchor="middle">500 documents</text>
-            <text x="136" y="127" font-family="'JetBrains Mono',monospace" font-size="9" fill="#8C7A52" text-anchor="middle">JSONL output</text>
+            <!-- Box 1: Synthetic Data Gen (x=28, w=160, center=108) -->
+            <rect x="28" y="42" width="160" height="106" rx="6" fill="#EEE0BC" stroke="#B8391F" stroke-width="1.5"/>
+            <rect x="28" y="42" width="160" height="5" rx="6" fill="#B8391F"/>
+            <text x="108" y="70" font-family="'JetBrains Mono',monospace" font-size="11" font-weight="700" fill="#2A2117" text-anchor="middle">Synthetic Data Gen</text>
+            <text x="108" y="88" font-family="'Inter',sans-serif" font-size="10" fill="#6B5E47" text-anchor="middle">Llama 3.3 70B</text>
+            <text x="108" y="104" font-family="'Inter',sans-serif" font-size="10" fill="#6B5E47" text-anchor="middle">500 documents</text>
+            <text x="108" y="120" font-family="'JetBrains Mono',monospace" font-size="9" fill="#8C7A52" text-anchor="middle">JSONL output</text>
 
             <!-- Arrow 1→2 -->
-            <line x1="234" y1="99" x2="254" y2="99" stroke="#8C7A52" stroke-width="1.5" marker-end="url(#arr)"/>
+            <line x1="188" y1="95" x2="206" y2="95" stroke="#8C7A52" stroke-width="1.5" marker-end="url(#arr)"/>
 
-            <!-- Box 2: Chunking -->
-            <rect x="254" y="46" width="196" height="106" rx="6" fill="#EEE0BC" stroke="#B8391F" stroke-width="1.5"/>
-            <rect x="254" y="46" width="196" height="5" rx="6" fill="#B8391F"/>
-            <text x="352" y="70" font-family="'JetBrains Mono',monospace" font-size="11" font-weight="700" fill="#2A2117" text-anchor="middle">Token-Aware</text>
-            <text x="352" y="85" font-family="'JetBrains Mono',monospace" font-size="11" font-weight="700" fill="#2A2117" text-anchor="middle">Chunking</text>
-            <text x="352" y="104" font-family="'Inter',sans-serif" font-size="10" fill="#6B5E47" text-anchor="middle">512 token max</text>
-            <text x="352" y="120" font-family="'Inter',sans-serif" font-size="10" fill="#6B5E47" text-anchor="middle">64 token overlap</text>
-            <text x="352" y="136" font-family="'JetBrains Mono',monospace" font-size="9" fill="#8C7A52" text-anchor="middle">cl100k_base tokeniser</text>
+            <!-- Box 2: Token-Aware Chunking (x=206, w=160, center=286) -->
+            <rect x="206" y="42" width="160" height="106" rx="6" fill="#EEE0BC" stroke="#B8391F" stroke-width="1.5"/>
+            <rect x="206" y="42" width="160" height="5" rx="6" fill="#B8391F"/>
+            <text x="286" y="64" font-family="'JetBrains Mono',monospace" font-size="11" font-weight="700" fill="#2A2117" text-anchor="middle">Token-Aware</text>
+            <text x="286" y="79" font-family="'JetBrains Mono',monospace" font-size="11" font-weight="700" fill="#2A2117" text-anchor="middle">Chunking</text>
+            <text x="286" y="96" font-family="'Inter',sans-serif" font-size="10" fill="#6B5E47" text-anchor="middle">512 token max</text>
+            <text x="286" y="112" font-family="'Inter',sans-serif" font-size="10" fill="#6B5E47" text-anchor="middle">64 token overlap</text>
+            <text x="286" y="128" font-family="'JetBrains Mono',monospace" font-size="9" fill="#8C7A52" text-anchor="middle">cl100k_base</text>
 
             <!-- Arrow 2→3 -->
-            <line x1="450" y1="99" x2="470" y2="99" stroke="#8C7A52" stroke-width="1.5" marker-end="url(#arr)"/>
+            <line x1="366" y1="95" x2="384" y2="95" stroke="#8C7A52" stroke-width="1.5" marker-end="url(#arr)"/>
 
-            <!-- Box 3: Embed -->
-            <rect x="470" y="46" width="196" height="106" rx="6" fill="#EEE0BC" stroke="#B8391F" stroke-width="1.5"/>
-            <rect x="470" y="46" width="196" height="5" rx="6" fill="#B8391F"/>
-            <text x="568" y="77" font-family="'JetBrains Mono',monospace" font-size="11" font-weight="700" fill="#2A2117" text-anchor="middle">Cohere Embed v3</text>
-            <text x="568" y="95" font-family="'Inter',sans-serif" font-size="10" fill="#6B5E47" text-anchor="middle">embed-english-v3.0</text>
-            <text x="568" y="111" font-family="'JetBrains Mono',monospace" font-size="9" fill="#8C7A52" text-anchor="middle">search_document</text>
-            <text x="568" y="127" font-family="'Inter',sans-serif" font-size="10" fill="#6B5E47" text-anchor="middle">float32 vectors</text>
+            <!-- Box 3: Cohere Embed v3 (x=384, w=160, center=464) -->
+            <rect x="384" y="42" width="160" height="106" rx="6" fill="#EEE0BC" stroke="#B8391F" stroke-width="1.5"/>
+            <rect x="384" y="42" width="160" height="5" rx="6" fill="#B8391F"/>
+            <text x="464" y="70" font-family="'JetBrains Mono',monospace" font-size="11" font-weight="700" fill="#2A2117" text-anchor="middle">Cohere Embed v3</text>
+            <text x="464" y="88" font-family="'Inter',sans-serif" font-size="10" fill="#6B5E47" text-anchor="middle">embed-english-v3.0</text>
+            <text x="464" y="104" font-family="'JetBrains Mono',monospace" font-size="9" fill="#8C7A52" text-anchor="middle">search_document</text>
+            <text x="464" y="120" font-family="'Inter',sans-serif" font-size="10" fill="#6B5E47" text-anchor="middle">float32 vectors</text>
 
             <!-- Arrow 3→4 -->
-            <line x1="666" y1="99" x2="686" y2="99" stroke="#8C7A52" stroke-width="1.5" marker-end="url(#arr)"/>
+            <line x1="544" y1="95" x2="562" y2="95" stroke="#8C7A52" stroke-width="1.5" marker-end="url(#arr)"/>
 
-            <!-- Box 4: ChromaDB -->
-            <rect x="686" y="46" width="196" height="106" rx="6" fill="#EEE0BC" stroke="#B8391F" stroke-width="1.5"/>
-            <rect x="686" y="46" width="196" height="5" rx="6" fill="#B8391F"/>
-            <text x="784" y="77" font-family="'JetBrains Mono',monospace" font-size="11" font-weight="700" fill="#2A2117" text-anchor="middle">ChromaDB</text>
-            <text x="784" y="95" font-family="'Inter',sans-serif" font-size="10" fill="#6B5E47" text-anchor="middle">HNSW index</text>
-            <text x="784" y="111" font-family="'Inter',sans-serif" font-size="10" fill="#6B5E47" text-anchor="middle">cosine similarity</text>
-            <text x="784" y="127" font-family="'Inter',sans-serif" font-size="10" fill="#6B5E47" text-anchor="middle">persistent on disk</text>
+            <!-- Box 4: ChromaDB (x=562, w=160, center=642) -->
+            <rect x="562" y="42" width="160" height="106" rx="6" fill="#EEE0BC" stroke="#B8391F" stroke-width="1.5"/>
+            <rect x="562" y="42" width="160" height="5" rx="6" fill="#B8391F"/>
+            <text x="642" y="70" font-family="'JetBrains Mono',monospace" font-size="11" font-weight="700" fill="#2A2117" text-anchor="middle">ChromaDB</text>
+            <text x="642" y="88" font-family="'Inter',sans-serif" font-size="10" fill="#6B5E47" text-anchor="middle">HNSW index</text>
+            <text x="642" y="104" font-family="'Inter',sans-serif" font-size="10" fill="#6B5E47" text-anchor="middle">cosine similarity</text>
+            <text x="642" y="120" font-family="'Inter',sans-serif" font-size="10" fill="#6B5E47" text-anchor="middle">persistent on disk</text>
 
-            <!-- QUERY TIME zone -->
-            <rect x="12" y="180" width="896" height="180" rx="7" fill="#DDD0A2" stroke="#8C7A52" stroke-width="1.5" stroke-dasharray="6 4"/>
-            <text x="28" y="200" font-family="'JetBrains Mono',monospace" font-size="10" font-weight="700" fill="#6B5E47" letter-spacing="0.1em">QUERY TIME — every request</text>
+            <!-- QUERY TIME zone: x=8, y=170, w=744, h=192 -->
+            <rect x="8" y="170" width="744" height="192" rx="7" fill="#DDD0A2" stroke="#8C7A52" stroke-width="1.5" stroke-dasharray="6 4"/>
+            <text x="24" y="190" font-family="'JetBrains Mono',monospace" font-size="10" font-weight="700" fill="#6B5E47" letter-spacing="0.1em">QUERY TIME — every request</text>
 
-            <!-- User Query -->
-            <rect x="38" y="208" width="140" height="90" rx="6" fill="#EEE0BC" stroke="#B8391F" stroke-width="1.5"/>
-            <rect x="38" y="208" width="140" height="5" rx="6" fill="#B8391F"/>
-            <text x="108" y="242" font-family="'JetBrains Mono',monospace" font-size="11" font-weight="700" fill="#2A2117" text-anchor="middle">User Query</text>
-            <text x="108" y="260" font-family="'Inter',sans-serif" font-size="10" fill="#6B5E47" text-anchor="middle">natural language</text>
-            <text x="108" y="276" font-family="'JetBrains Mono',monospace" font-size="9" fill="#8C7A52" text-anchor="middle">search_query</text>
+            <!-- User Query: x=28, y=200, w=118, h=86; right=146; center y=243 -->
+            <rect x="28" y="200" width="118" height="86" rx="6" fill="#EEE0BC" stroke="#B8391F" stroke-width="1.5"/>
+            <rect x="28" y="200" width="118" height="5" rx="6" fill="#B8391F"/>
+            <text x="87" y="232" font-family="'JetBrains Mono',monospace" font-size="11" font-weight="700" fill="#2A2117" text-anchor="middle">User Query</text>
+            <text x="87" y="250" font-family="'Inter',sans-serif" font-size="10" fill="#6B5E47" text-anchor="middle">natural language</text>
+            <text x="87" y="266" font-family="'JetBrains Mono',monospace" font-size="9" fill="#8C7A52" text-anchor="middle">search_query</text>
 
-            <!-- Orthogonal split: right edge of User Query = 178 -->
-            <!-- Junction at x=194 -->
-            <line x1="178" y1="253" x2="194" y2="253" stroke="#8C7A52" stroke-width="1.5"/>
-            <line x1="194" y1="227" x2="194" y2="305" stroke="#8C7A52" stroke-width="1.5"/>
-            <line x1="194" y1="227" x2="210" y2="227" stroke="#8C7A52" stroke-width="1.5" marker-end="url(#arr)"/>
-            <line x1="194" y1="305" x2="210" y2="305" stroke="#8C7A52" stroke-width="1.5" marker-end="url(#arr)"/>
+            <!-- Split: from User Query right (146,243) to junction x=162 -->
+            <!-- Spine covers Dense center y=230 to BM25 center y=312 -->
+            <line x1="146" y1="243" x2="162" y2="243" stroke="#8C7A52" stroke-width="1.5"/>
+            <line x1="162" y1="230" x2="162" y2="312" stroke="#8C7A52" stroke-width="1.5"/>
+            <line x1="162" y1="230" x2="178" y2="230" stroke="#8C7A52" stroke-width="1.5" marker-end="url(#arr)"/>
+            <line x1="162" y1="312" x2="178" y2="312" stroke="#8C7A52" stroke-width="1.5" marker-end="url(#arr)"/>
 
-            <!-- Dense Retrieval -->
-            <rect x="210" y="205" width="180" height="66" rx="6" fill="#EEE0BC" stroke="#B8391F" stroke-width="1.5"/>
-            <rect x="210" y="205" width="180" height="5" rx="6" fill="#B8391F"/>
-            <text x="300" y="231" font-family="'JetBrains Mono',monospace" font-size="11" font-weight="700" fill="#2A2117" text-anchor="middle">Dense Retrieval</text>
-            <text x="300" y="249" font-family="'Inter',sans-serif" font-size="10" fill="#6B5E47" text-anchor="middle">cosine sim · top 20</text>
+            <!-- Dense Retrieval: x=178, y=197, w=152, h=66; center y=230 -->
+            <rect x="178" y="197" width="152" height="66" rx="6" fill="#EEE0BC" stroke="#B8391F" stroke-width="1.5"/>
+            <rect x="178" y="197" width="152" height="5" rx="6" fill="#B8391F"/>
+            <text x="254" y="224" font-family="'JetBrains Mono',monospace" font-size="11" font-weight="700" fill="#2A2117" text-anchor="middle">Dense Retrieval</text>
+            <text x="254" y="242" font-family="'Inter',sans-serif" font-size="10" fill="#6B5E47" text-anchor="middle">cosine sim · top 20</text>
 
-            <!-- Sparse BM25 -->
-            <rect x="210" y="283" width="180" height="66" rx="6" fill="#EEE0BC" stroke="#B8391F" stroke-width="1.5"/>
-            <rect x="210" y="283" width="180" height="5" rx="6" fill="#B8391F"/>
-            <text x="300" y="309" font-family="'JetBrains Mono',monospace" font-size="11" font-weight="700" fill="#2A2117" text-anchor="middle">Sparse BM25</text>
-            <text x="300" y="327" font-family="'Inter',sans-serif" font-size="10" fill="#6B5E47" text-anchor="middle">keyword · top 20</text>
+            <!-- Sparse BM25: x=178, y=279, w=152, h=66; center y=312 -->
+            <rect x="178" y="279" width="152" height="66" rx="6" fill="#EEE0BC" stroke="#B8391F" stroke-width="1.5"/>
+            <rect x="178" y="279" width="152" height="5" rx="6" fill="#B8391F"/>
+            <text x="254" y="306" font-family="'JetBrains Mono',monospace" font-size="11" font-weight="700" fill="#2A2117" text-anchor="middle">Sparse BM25</text>
+            <text x="254" y="324" font-family="'Inter',sans-serif" font-size="10" fill="#6B5E47" text-anchor="middle">keyword · top 20</text>
 
-            <!-- Merge into RRF: Dense right=390, BM25 right=390, junction x=406 -->
-            <line x1="390" y1="238" x2="406" y2="238" stroke="#8C7A52" stroke-width="1.5"/>
-            <line x1="390" y1="316" x2="406" y2="316" stroke="#8C7A52" stroke-width="1.5"/>
-            <line x1="406" y1="238" x2="406" y2="316" stroke="#8C7A52" stroke-width="1.5"/>
-            <line x1="406" y1="277" x2="422" y2="277" stroke="#8C7A52" stroke-width="1.5" marker-end="url(#arr)"/>
+            <!-- Merge: Dense/BM25 right=330, junction x=346, midpoint y=271 -->
+            <line x1="330" y1="230" x2="346" y2="230" stroke="#8C7A52" stroke-width="1.5"/>
+            <line x1="330" y1="312" x2="346" y2="312" stroke="#8C7A52" stroke-width="1.5"/>
+            <line x1="346" y1="230" x2="346" y2="312" stroke="#8C7A52" stroke-width="1.5"/>
+            <line x1="346" y1="271" x2="362" y2="271" stroke="#8C7A52" stroke-width="1.5" marker-end="url(#arr)"/>
 
-            <!-- RRF Fusion -->
-            <rect x="422" y="245" width="152" height="64" rx="6" fill="#EEE0BC" stroke="#B8391F" stroke-width="1.5"/>
-            <rect x="422" y="245" width="152" height="5" rx="6" fill="#B8391F"/>
-            <text x="498" y="271" font-family="'JetBrains Mono',monospace" font-size="11" font-weight="700" fill="#2A2117" text-anchor="middle">RRF Fusion</text>
-            <text x="498" y="289" font-family="'Inter',sans-serif" font-size="10" fill="#6B5E47" text-anchor="middle">k=60 · merged top 20</text>
+            <!-- RRF Fusion: x=362, y=240, w=110, h=62; center y=271 -->
+            <rect x="362" y="240" width="110" height="62" rx="6" fill="#EEE0BC" stroke="#B8391F" stroke-width="1.5"/>
+            <rect x="362" y="240" width="110" height="5" rx="6" fill="#B8391F"/>
+            <text x="417" y="266" font-family="'JetBrains Mono',monospace" font-size="11" font-weight="700" fill="#2A2117" text-anchor="middle">RRF Fusion</text>
+            <text x="417" y="284" font-family="'Inter',sans-serif" font-size="10" fill="#6B5E47" text-anchor="middle">k=60 · top 20</text>
 
             <!-- Arrow RRF → Rerank -->
-            <line x1="574" y1="277" x2="592" y2="277" stroke="#8C7A52" stroke-width="1.5" marker-end="url(#arr)"/>
+            <line x1="472" y1="271" x2="490" y2="271" stroke="#8C7A52" stroke-width="1.5" marker-end="url(#arr)"/>
 
-            <!-- Rerank v4 -->
-            <rect x="592" y="245" width="152" height="64" rx="6" fill="#EEE0BC" stroke="#B8391F" stroke-width="1.5"/>
-            <rect x="592" y="245" width="152" height="5" rx="6" fill="#B8391F"/>
-            <text x="668" y="271" font-family="'JetBrains Mono',monospace" font-size="11" font-weight="700" fill="#2A2117" text-anchor="middle">Rerank v4</text>
-            <text x="668" y="289" font-family="'Inter',sans-serif" font-size="10" fill="#6B5E47" text-anchor="middle">cross-encoder · top 5</text>
+            <!-- Rerank v4: x=490, y=240, w=110, h=62; center y=271 -->
+            <rect x="490" y="240" width="110" height="62" rx="6" fill="#EEE0BC" stroke="#B8391F" stroke-width="1.5"/>
+            <rect x="490" y="240" width="110" height="5" rx="6" fill="#B8391F"/>
+            <text x="545" y="266" font-family="'JetBrains Mono',monospace" font-size="11" font-weight="700" fill="#2A2117" text-anchor="middle">Rerank v4</text>
+            <text x="545" y="284" font-family="'Inter',sans-serif" font-size="10" fill="#6B5E47" text-anchor="middle">cross-enc · top 5</text>
 
-            <!-- Arrow Rerank → Claude -->
-            <line x1="744" y1="277" x2="762" y2="277" stroke="#8C7A52" stroke-width="1.5" marker-end="url(#arr)"/>
+            <!-- Arrow Rerank → LLM -->
+            <line x1="600" y1="271" x2="618" y2="271" stroke="#8C7A52" stroke-width="1.5" marker-end="url(#arr)"/>
 
-            <!-- LLM -->
-            <rect x="762" y="245" width="152" height="64" rx="6" fill="#EEE0BC" stroke="#B8391F" stroke-width="1.5"/>
-            <rect x="762" y="245" width="152" height="5" rx="6" fill="#B8391F"/>
-            <text x="838" y="271" font-family="'JetBrains Mono',monospace" font-size="11" font-weight="700" fill="#2A2117" text-anchor="middle">LLM</text>
-            <text x="838" y="289" font-family="'Inter',sans-serif" font-size="10" fill="#6B5E47" text-anchor="middle">grounded answer</text>
+            <!-- LLM: x=618, y=240, w=110, h=62; center y=271 -->
+            <rect x="618" y="240" width="110" height="62" rx="6" fill="#EEE0BC" stroke="#B8391F" stroke-width="1.5"/>
+            <rect x="618" y="240" width="110" height="5" rx="6" fill="#B8391F"/>
+            <text x="673" y="266" font-family="'JetBrains Mono',monospace" font-size="11" font-weight="700" fill="#2A2117" text-anchor="middle">LLM</text>
+            <text x="673" y="284" font-family="'Inter',sans-serif" font-size="10" fill="#6B5E47" text-anchor="middle">grounded answer</text>
           </svg>
         </div>
 
@@ -635,7 +635,7 @@ When referencing specific information, cite the document ID (e.g. "per NCR-2024-
             <rect x="40" y="60" width="442" height="138" rx="8" fill="#EEE0BC" stroke="#B8391F" stroke-width="1.5"/>
             <rect x="40" y="60" width="442" height="6" rx="8" fill="#B8391F"/>
             <text x="64" y="90" font-family="'JetBrains Mono',monospace" font-size="12" font-weight="700" fill="#2A2117">① Synthetic Data Generation</text>
-            <line x1="64" y1="98" x2="462" y2="98" stroke="#8C7A52" stroke-width="0.75"/>
+            <line x1="60" y1="98" x2="462" y2="98" stroke="#8C7A52" stroke-width="0.75"/>
             <text x="74" y="116" font-family="'Inter',sans-serif" font-size="11" fill="#6B5E47">• Llama 3.3 70B via OpenRouter</text>
             <text x="74" y="133" font-family="'Inter',sans-serif" font-size="11" fill="#6B5E47">• 500 documents across 5 types:</text>
             <text x="88" y="150" font-family="'JetBrains Mono',monospace" font-size="10" fill="#8C7A52">NCR (150) · ECR (100) · CAR (100) · Supplier Audit (100) · Incident (50)</text>
@@ -648,7 +648,7 @@ When referencing specific information, cite the document ID (e.g. "per NCR-2024-
             <rect x="40" y="220" width="442" height="122" rx="8" fill="#EEE0BC" stroke="#B8391F" stroke-width="1.5"/>
             <rect x="40" y="220" width="442" height="6" rx="8" fill="#B8391F"/>
             <text x="64" y="250" font-family="'JetBrains Mono',monospace" font-size="12" font-weight="700" fill="#2A2117">② Token-Aware Chunking</text>
-            <line x1="64" y1="258" x2="462" y2="258" stroke="#8C7A52" stroke-width="0.75"/>
+            <line x1="60" y1="258" x2="462" y2="258" stroke="#8C7A52" stroke-width="0.75"/>
             <text x="74" y="276" font-family="'Inter',sans-serif" font-size="11" fill="#6B5E47">• 512 token max chunk size (tiktoken cl100k_base)</text>
             <text x="74" y="293" font-family="'Inter',sans-serif" font-size="11" fill="#6B5E47">• 64 token overlap — prevents sentences being cut across boundaries</text>
             <text x="74" y="310" font-family="'Inter',sans-serif" font-size="11" fill="#6B5E47">• Sentence-boundary aware: splits on .!? not mid-sentence</text>
@@ -660,7 +660,7 @@ When referencing specific information, cite the document ID (e.g. "per NCR-2024-
             <rect x="40" y="364" width="442" height="122" rx="8" fill="#EEE0BC" stroke="#B8391F" stroke-width="1.5"/>
             <rect x="40" y="364" width="442" height="6" rx="8" fill="#B8391F"/>
             <text x="64" y="394" font-family="'JetBrains Mono',monospace" font-size="12" font-weight="700" fill="#2A2117">③ Cohere Embed v3</text>
-            <line x1="64" y1="402" x2="462" y2="402" stroke="#8C7A52" stroke-width="0.75"/>
+            <line x1="60" y1="402" x2="462" y2="402" stroke="#8C7A52" stroke-width="0.75"/>
             <text x="74" y="420" font-family="'Inter',sans-serif" font-size="11" fill="#6B5E47">• Model: embed-english-v3.0</text>
             <text x="74" y="437" font-family="'Inter',sans-serif" font-size="11" fill="#6B5E47">• input_type = "search_document" (wrong type silently degrades quality)</text>
             <text x="74" y="454" font-family="'Inter',sans-serif" font-size="11" fill="#6B5E47">• Batch size: 96 texts/request · retry on rate limit (61s wait)</text>
@@ -672,7 +672,7 @@ When referencing specific information, cite the document ID (e.g. "per NCR-2024-
             <rect x="40" y="508" width="442" height="122" rx="8" fill="#EEE0BC" stroke="#B8391F" stroke-width="1.5"/>
             <rect x="40" y="508" width="442" height="6" rx="8" fill="#B8391F"/>
             <text x="64" y="538" font-family="'JetBrains Mono',monospace" font-size="12" font-weight="700" fill="#2A2117">④ ChromaDB Vector Store</text>
-            <line x1="64" y1="546" x2="462" y2="546" stroke="#8C7A52" stroke-width="0.75"/>
+            <line x1="60" y1="546" x2="462" y2="546" stroke="#8C7A52" stroke-width="0.75"/>
             <text x="74" y="564" font-family="'Inter',sans-serif" font-size="11" fill="#6B5E47">• Persistent on disk (chroma_db/) · cosine similarity metric</text>
             <text x="74" y="581" font-family="'Inter',sans-serif" font-size="11" fill="#6B5E47">• Collection: mfg_rag_cohere_v3</text>
             <text x="74" y="598" font-family="'Inter',sans-serif" font-size="11" fill="#6B5E47">• HNSW index: approximate nearest-neighbour, sub-linear query time</text>
@@ -684,11 +684,11 @@ When referencing specific information, cite the document ID (e.g. "per NCR-2024-
             <text x="799" y="88" font-family="'JetBrains Mono',monospace" font-size="12" font-weight="700" fill="#2A2117" text-anchor="middle">User Query</text>
             <text x="799" y="107" font-family="'Inter',sans-serif" font-size="11" fill="#6B5E47" text-anchor="middle">natural language question</text>
 
-            <!-- Orthogonal split from User Query -->
+            <!-- Orthogonal split from User Query: centered on Dense (694) and Sparse (930) -->
             <line x1="799" y1="122" x2="799" y2="148" stroke="#8C7A52" stroke-width="1.5"/>
-            <line x1="690" y1="148" x2="920" y2="148" stroke="#8C7A52" stroke-width="1.5"/>
-            <line x1="690" y1="148" x2="690" y2="220" stroke="#8C7A52" stroke-width="1.5" marker-end="url(#carr)"/>
-            <line x1="920" y1="148" x2="920" y2="220" stroke="#8C7A52" stroke-width="1.5" marker-end="url(#carr)"/>
+            <line x1="694" y1="148" x2="930" y2="148" stroke="#8C7A52" stroke-width="1.5"/>
+            <line x1="694" y1="148" x2="694" y2="220" stroke="#8C7A52" stroke-width="1.5" marker-end="url(#carr)"/>
+            <line x1="930" y1="148" x2="930" y2="220" stroke="#8C7A52" stroke-width="1.5" marker-end="url(#carr)"/>
 
             <!-- Dense Retrieval -->
             <rect x="578" y="220" width="232" height="150" rx="8" fill="#EEE0BC" stroke="#B8391F" stroke-width="1.5"/>
@@ -721,10 +721,10 @@ When referencing specific information, cite the document ID (e.g. "per NCR-2024-
             <line x1="812" y1="396" x2="812" y2="420" stroke="#8C7A52" stroke-width="1.5" marker-end="url(#carr)"/>
 
             <!-- RRF Fusion -->
-            <rect x="578" y="420" width="468" height="122" rx="8" fill="#EEE0BC" stroke="#B8391F" stroke-width="1.5"/>
-            <rect x="578" y="420" width="468" height="6" rx="8" fill="#B8391F"/>
+            <rect x="578" y="420" width="466" height="122" rx="8" fill="#EEE0BC" stroke="#B8391F" stroke-width="1.5"/>
+            <rect x="578" y="420" width="466" height="6" rx="8" fill="#B8391F"/>
             <text x="812" y="450" font-family="'JetBrains Mono',monospace" font-size="12" font-weight="700" fill="#2A2117" text-anchor="middle">⑤ RRF Fusion</text>
-            <line x1="598" y1="458" x2="1026" y2="458" stroke="#8C7A52" stroke-width="0.75"/>
+            <line x1="598" y1="458" x2="1024" y2="458" stroke="#8C7A52" stroke-width="0.75"/>
             <text x="598" y="476" font-family="'Inter',sans-serif" font-size="11" fill="#6B5E47">• score(d) = Σ 1/(k + rank)  where k = 60</text>
             <text x="598" y="493" font-family="'Inter',sans-serif" font-size="11" fill="#6B5E47">• Documents in both lists accumulate score from each</text>
             <text x="598" y="510" font-family="'Inter',sans-serif" font-size="11" fill="#6B5E47">• Parameter-free — k=60 from Cormack et al. SIGIR 2009</text>
@@ -733,10 +733,10 @@ When referencing specific information, cite the document ID (e.g. "per NCR-2024-
             <line x1="812" y1="542" x2="812" y2="564" stroke="#8C7A52" stroke-width="1.5" marker-end="url(#carr)"/>
 
             <!-- Reranker -->
-            <rect x="578" y="564" width="468" height="122" rx="8" fill="#EEE0BC" stroke="#B8391F" stroke-width="1.5"/>
-            <rect x="578" y="564" width="468" height="6" rx="8" fill="#B8391F"/>
+            <rect x="578" y="564" width="466" height="122" rx="8" fill="#EEE0BC" stroke="#B8391F" stroke-width="1.5"/>
+            <rect x="578" y="564" width="466" height="6" rx="8" fill="#B8391F"/>
             <text x="812" y="594" font-family="'JetBrains Mono',monospace" font-size="12" font-weight="700" fill="#2A2117" text-anchor="middle">⑥ Cohere Rerank v4</text>
-            <line x1="598" y1="602" x2="1026" y2="602" stroke="#8C7A52" stroke-width="0.75"/>
+            <line x1="598" y1="602" x2="1024" y2="602" stroke="#8C7A52" stroke-width="0.75"/>
             <text x="598" y="620" font-family="'Inter',sans-serif" font-size="11" fill="#6B5E47">• Cross-encoder: reads query and each doc together in one pass</text>
             <text x="598" y="637" font-family="'Inter',sans-serif" font-size="11" fill="#6B5E47">• More accurate than bi-encoder but too slow for full corpus</text>
             <text x="598" y="654" font-family="'Inter',sans-serif" font-size="11" fill="#6B5E47">• Model: rerank-v4.0-fast · rerank_score added to each result</text>
@@ -744,11 +744,11 @@ When referencing specific information, cite the document ID (e.g. "per NCR-2024-
 
             <line x1="812" y1="686" x2="812" y2="708" stroke="#8C7A52" stroke-width="1.5" marker-end="url(#carr)"/>
 
-            <!-- Claude Generator -->
-            <rect x="578" y="708" width="468" height="122" rx="8" fill="#EEE0BC" stroke="#B8391F" stroke-width="1.5"/>
-            <rect x="578" y="708" width="468" height="6" rx="8" fill="#B8391F"/>
+            <!-- LLM Generator -->
+            <rect x="578" y="708" width="466" height="122" rx="8" fill="#EEE0BC" stroke="#B8391F" stroke-width="1.5"/>
+            <rect x="578" y="708" width="466" height="6" rx="8" fill="#B8391F"/>
             <text x="812" y="738" font-family="'JetBrains Mono',monospace" font-size="12" font-weight="700" fill="#2A2117" text-anchor="middle">⑦ LLM</text>
-            <line x1="598" y1="746" x2="1026" y2="746" stroke="#8C7A52" stroke-width="0.75"/>
+            <line x1="598" y1="746" x2="1024" y2="746" stroke="#8C7A52" stroke-width="0.75"/>
             <text x="598" y="764" font-family="'Inter',sans-serif" font-size="11" fill="#6B5E47">• Receives top-5 chunks as numbered context [1]...[5]</text>
             <text x="598" y="781" font-family="'Inter',sans-serif" font-size="11" fill="#6B5E47">• System prompt: answer ONLY from context, cite doc IDs</text>
             <text x="598" y="798" font-family="'Inter',sans-serif" font-size="11" fill="#6B5E47">• No external knowledge — keeps evaluation honest</text>
@@ -757,7 +757,7 @@ When referencing specific information, cite the document ID (e.g. "per NCR-2024-
             <!-- Eval Harness -->
             <rect x="40" y="652" width="442" height="196" rx="8" fill="#E8D5A0" stroke="#B8391F" stroke-width="1.5" stroke-dasharray="5 3"/>
             <text x="64" y="678" font-family="'JetBrains Mono',monospace" font-size="11" font-weight="700" fill="#2A2117">⑧ Evaluation Harness</text>
-            <line x1="64" y1="686" x2="462" y2="686" stroke="#8C7A52" stroke-width="0.75"/>
+            <line x1="60" y1="686" x2="462" y2="686" stroke="#8C7A52" stroke-width="0.75"/>
             <text x="74" y="704" font-family="'Inter',sans-serif" font-size="11" fill="#6B5E47">• 27 golden queries derived from metadata ground truth</text>
             <text x="74" y="721" font-family="'Inter',sans-serif" font-size="11" fill="#6B5E47">• Metrics: Hit Rate@5 · MRR@5 · NDCG@5</text>
             <text x="74" y="738" font-family="'Inter',sans-serif" font-size="11" fill="#6B5E47">• Cohere v3 results:</text>
