@@ -446,24 +446,24 @@ DEFECT_TYPES = [
 
         <h2>Embedding Chunks with Cohere Embed v3</h2>
         <p>
-          Once documents are chunked, the next step is converting each chunk into a vector - a fixed-length list of floating point numbers that represents its semantic meaning. This is what allows the system to search by meaning rather than just keywords. Similar chunks produce vectors that are close together in a high-dimensional space, even if they share no exact words.
+          Once documents are chunked, the next step is converting each chunk into a vector (a fixed-length list of floating point numbers representing its semantic meaning). This is what allows the system to search by meaning rather than just keywords. Similar chunks produce vectors that are close together in a high-dimensional space, even if they share no exact words.
         </p>
         <p>For this project I used Cohere's Embed v3 model (<code>embed-english-v3.0</code>).</p>
 
         <h3>The input_type distinction</h3>
         <p>
-          An important caveat about Cohere's embedding API: it requires you to declare whether you are embedding a <strong>document</strong> (being stored in the index) or a <strong>query</strong> (being searched at runtime). The model uses different internal encoding paths for each. Using the wrong type silently degrades retrieval quality - you get plausible-looking but sub-optimal results with no error message.
+          An important caveat about Cohere's embedding API: it requires you to declare whether you are embedding a <strong>document</strong> (being stored in the index) or a <strong>query</strong> (being searched at runtime). The model uses different internal encoding paths for each. Using the wrong type silently degrades retrieval quality: you get plausible-looking but sub-optimal results with no error message.
         </p>
 
-<pre><code># At index time - encoding chunks for storage
+<pre><code># At index time: encoding chunks for storage
 embed_documents(texts)  # input_type = "search_document"
 
-# At query time - encoding the user's question
+# At query time: encoding the user's question
 embed_query(text)       # input_type = "search_query"</code></pre>
 
         <h3>Batching and error handling</h3>
         <p>
-          The embedder processes chunks in batches of 96 texts per request. For our 398 chunks that means 5 API calls per index build. To handle API errors gracefully, the embedder includes a retry loop that catches any <code>TooManyRequestsError</code> and waits 61 seconds before retrying the same batch - useful when running multiple index builds in the same session.
+          The embedder processes chunks in batches of 96 texts per request. For our 398 chunks that means 5 API calls per index build. To handle API errors gracefully, the embedder includes a retry loop that catches any <code>TooManyRequestsError</code> and waits 61 seconds before retrying the same batch, which is useful when running multiple index builds in the same session.
         </p>
 
 <pre><code>except TooManyRequestsError:
@@ -480,18 +480,18 @@ embed_query(text)       # input_type = "search_query"</code></pre>
 
         <h3>Why cosine similarity?</h3>
         <p>
-          ChromaDB supports multiple distance metrics. I chose cosine similarity because it measures the angle between two vectors rather than their magnitude. This means two chunks about the same topic will score highly regardless of their length. Euclidean distance penalizes shorter chunks because their vectors have smaller magnitudes - cosine is invariant to this and is the standard choice for embedding-based retrieval.
+          ChromaDB supports multiple distance metrics. I chose cosine similarity because it measures the angle between two vectors rather than their magnitude. This means two chunks about the same topic will score highly regardless of their length. Euclidean distance penalizes shorter chunks because their vectors have smaller magnitudes; cosine is invariant to this and is the standard choice for embedding-based retrieval.
         </p>
         <p>
-          ChromaDB returns cosine distance (0 = identical, 2 = opposite). We convert it to similarity with a simple inversion: <code>score = 1 - distance</code>, so that higher always means more relevant - consistent with the BM25 scores in the next step.
+          ChromaDB returns cosine distance (0 = identical, 2 = opposite). We convert it to similarity with a simple inversion: <code>score = 1 - distance</code>, so that higher always means more relevant, consistent with the BM25 scores in the next step.
         </p>
 
         <h2>Dense Retrieval</h2>
         <p>
-          With the index built, we can retrieve relevant chunks for any query. Dense retrieval works by embedding the user's query using the same Cohere model (with <code>input_type = "search_query"</code>) and asking ChromaDB to find the 20 most similar vectors using the HNSW index. HNSW (Hierarchical Navigable Small World) is a graph-based approximate nearest-neighbour algorithm - it finds the most similar vectors quickly without comparing the query against every chunk in the database, which would be far too slow at scale.
+          With the index built, we can retrieve relevant chunks for any query. Dense retrieval works by embedding the user's query using the same Cohere model (with <code>input_type = "search_query"</code>) and asking ChromaDB to find the 20 most similar vectors using the HNSW index. HNSW (Hierarchical Navigable Small World) is a graph-based approximate nearest-neighbour algorithm that finds the most similar vectors quickly without comparing the query against every chunk in the database, which would be far too slow at scale.
         </p>
         <p>
-          This is where the power of embeddings shows up. A query like "which parts had internal voids?" will retrieve chunks about porosity defects even though the word "porosity" never appears in the query - because both concepts map to nearby regions of the vector space.
+          This is where the power of embeddings shows up. A query like "which parts had internal voids?" will retrieve chunks about porosity defects even though the word "porosity" never appears in the query, because both concepts map to nearby regions of the vector space.
         </p>
         <p>
           We retrieve the top 20 candidates rather than the final 5, because the reranker at the end of the pipeline is far better at precise ranking. The retriever's job is to cast a wide enough net that the right documents are in the candidate pool.
@@ -499,22 +499,22 @@ embed_query(text)       # input_type = "search_query"</code></pre>
 
         <h2>Sparse Retrieval using BM25Okapi</h2>
         <p>
-          Dense retrieval alone has a blind spot: exact keyword matching. A query for a specific document ID like <code>NCR-2025-08324</code> or a rare part number may not produce a meaningful embedding signal - the model hasn't seen enough context to know that string is important. This is where sparse retrieval steps in.
+          Dense retrieval alone has a blind spot: exact keyword matching. A query for a specific document ID like <code>NCR-2025-08324</code> or a rare part number may not produce a meaningful embedding signal; the model has not seen enough context to know that string is important. This is where sparse retrieval steps in.
         </p>
         <p>
-          BM25 (Best Match 25) is a classical probabilistic ranking function that scores documents based on term frequency, inverse document frequency, and document length normalization. It requires no embedding model - it operates directly on tokenized text.
+          BM25 (Best Match 25) is a classical probabilistic ranking function that scores documents based on term frequency, inverse document frequency, and document length normalization. It requires no embedding model; it operates directly on tokenized text.
         </p>
 
         <div class="formula-block">score(d, q) = &sum; IDF(q&#7522;) &middot; TF(q&#7522;, d) &middot; length_norm
 
-  IDF  - rare terms score higher than common ones
-  TF   - how often the query term appears in the document
-  len  - prevents long documents from winning on volume alone</div>
+  IDF: rare terms score higher than common ones
+  TF:  how often the query term appears in the document
+  len: prevents long documents from winning on volume alone</div>
 
         <p>
           The BM25 index is built in memory at startup from all chunk texts. At query time, the query is tokenized, scored against every chunk, and the top 20 non-zero results are returned. This takes milliseconds for our dataset size.
         </p>
-        <p>The result is two ranked lists - one from dense retrieval, one from sparse - which we now need to merge.</p>
+        <p>The result is two ranked lists (one from dense retrieval, one from sparse) that now need to be merged.</p>
 
         <h2>Reciprocal Rank Fusion (RRF)</h2>
         <p>
@@ -536,30 +536,30 @@ embed_query(text)       # input_type = "search_query"</code></pre>
 
         <h2>Reranking with Cohere Rerank v4</h2>
         <p>
-          The retrievers so far - both dense and sparse - are bi-encoders. They encode the query and each document independently and find nearby vectors. This is fast but coarse: the query and document never interact during encoding, so subtle relevance signals can be missed.
+          Both the dense and sparse retrievers are bi-encoders. They encode the query and each document independently and find nearby vectors. This is fast but coarse: the query and document never interact during encoding, so subtle relevance signals can be missed.
         </p>
         <p>
           A cross-encoder reads the query and one document together in a single forward pass, with full attention across both. This is far more accurate but also far too slow to run on the full corpus. The solution is to use it only on the shortlist: the top 20 fused candidates from RRF.
         </p>
         <p>
-          Cohere Rerank v4 (<code>rerank-v4.0-fast</code>) re-scores each of the 20 candidates against the query and returns the top 5 with a <code>rerank_score</code> between 0 and 1. In practice, the reranker frequently promotes documents that the bi-encoder ranked 8th or 10th into the top 3 - particularly for queries with nuanced intent that dense similarity alone misses.
+          Cohere Rerank v4 (<code>rerank-v4.0-fast</code>) re-scores each of the 20 candidates against the query and returns the top 5 with a <code>rerank_score</code> between 0 and 1. In practice, the reranker frequently promotes documents that the bi-encoder ranked 8th or 10th into the top 3, particularly for queries with nuanced intent that dense similarity alone misses.
         </p>
         <p>The top 5 reranked chunks become the context for the generation step.</p>
 
         <h2>Generating Responses with Claude Sonnet</h2>
         <p>
-          The final step hands off to Claude Sonnet (via OpenRouter) to generate a grounded natural language answer from the top 5 chunks. The key design constraint is that Claude is explicitly instructed to answer only from the provided context - no external knowledge, no hallucination. If the answer is not in the chunks, it says so.
+          The final step hands off to Claude Sonnet (via OpenRouter) to generate a grounded natural language answer from the top 5 chunks. The key design constraint is that Claude is explicitly instructed to answer only from the provided context, with no external knowledge and no hallucination. If the answer is not in the chunks, it says so.
         </p>
 
 <pre><code>_SYSTEM_PROMPT = """
 You are a quality engineering assistant for an aerospace manufacturing company.
 Answer the user's question using ONLY the information in the provided context documents.
-If the answer cannot be found in the context, say so clearly - do not guess.
+If the answer cannot be found in the context, say so clearly; do not guess.
 When referencing specific information, cite the document ID (e.g. "per NCR-2024-00042").
 """</code></pre>
 
         <p>
-          Each chunk is numbered and labeled with its doc ID, type, and supplier before being passed to the model. This makes citation straightforward and keeps the answer traceable back to the source document - which is what makes RAG trustworthy in an enterprise context.
+          Each chunk is numbered and labeled with its doc ID, type, and supplier before being passed to the model. This makes citation straightforward and keeps the answer traceable back to the source document, which is what makes RAG trustworthy in an enterprise context.
         </p>
 
         <h3>Why OpenRouter?</h3>
@@ -572,7 +572,7 @@ When referencing specific information, cite the document ID (e.g. "per NCR-2024-
 
         <h3>The golden dataset</h3>
         <p>
-          I built a golden dataset of 27 queries by deriving them directly from the structured metadata fields that Llama 70B used when generating each document. Because the metadata records <code>defect_type: "Porosity detected on X-ray"</code> for each NCR, we can automatically generate the query "Which NCRs involved porosity defects?" and know with certainty which doc IDs are the correct answers - no manual labeling required.
+          I built a golden dataset of 27 queries by deriving them directly from the structured metadata fields that Llama 70B used when generating each document. Because the metadata records <code>defect_type: "Porosity detected on X-ray"</code> for each NCR, we can automatically generate the query "Which NCRs involved porosity defects?" and know with certainty which doc IDs are the correct answers, with no manual labeling required.
         </p>
         <p>This approach gives deterministic, verifiable ground truth across all 5 document types.</p>
 
@@ -583,12 +583,12 @@ When referencing specific information, cite the document ID (e.g. "per NCR-2024-
           <div class="result-cell">
             <span class="result-label">Hit Rate@5</span>
             <span class="result-score">0.89</span>
-            <p class="result-desc">At least one correct document in the top 5 - 24 of 27 queries</p>
+            <p class="result-desc">At least one correct document in the top 5 (24 of 27 queries)</p>
           </div>
           <div class="result-cell">
             <span class="result-label">MRR@5</span>
             <span class="result-score">0.74</span>
-            <p class="result-desc">Average rank of the first correct result - landing around rank 1 or 2</p>
+            <p class="result-desc">Average rank of the first correct result, landing around rank 1 or 2</p>
           </div>
           <div class="result-cell">
             <span class="result-label">NDCG@5</span>
@@ -598,7 +598,7 @@ When referencing specific information, cite the document ID (e.g. "per NCR-2024-
         </div>
 
         <p>
-          An MRR of 0.74 means the first relevant document is landing at rank 1 or 2 on average, which is strong for a 27-query benchmark on a domain-specific corpus. The 3 misses - <code>ncr_defect_material_cert</code>, <code>ncr_disposition_uai</code>, <code>ncr_severity_critical</code> - are queries where the pipeline's top 5 contained no ground-truth relevant documents. Areas to improve in future iterations.
+          An MRR of 0.74 means the first relevant document is landing at rank 1 or 2 on average, which is strong for a 27-query benchmark on a domain-specific corpus. The 3 misses (<code>ncr_defect_material_cert</code>, <code>ncr_disposition_uai</code>, <code>ncr_severity_critical</code>) are queries where the pipeline's top 5 contained no ground-truth relevant documents. Areas to improve in future iterations.
         </p>
 
         <h2>What's next</h2>
@@ -609,7 +609,7 @@ When referencing specific information, cite the document ID (e.g. "per NCR-2024-
         </ul>
 
         <h2>Comprehensive Diagram of the Process</h2>
-        <p>A full annotated view of both phases - index time and query time - with every step, parameter, and output described.</p>
+        <p>A full annotated view of both phases (index time and query time) with every step, parameter, and output described.</p>
 
         <!-- ═══ COMPREHENSIVE DIAGRAM ═══ -->
         <div class="diagram-wrap">
@@ -622,9 +622,9 @@ When referencing specific information, cite the document ID (e.g. "per NCR-2024-
 
             <!-- ── ZONES ── -->
             <rect x="16" y="16" width="490" height="832" rx="12" fill="#EBD9A5" stroke="#8C7A52" stroke-width="1.5" stroke-dasharray="6 4"/>
-            <text x="36" y="43" font-family="'JetBrains Mono',monospace" font-size="10" font-weight="700" fill="#B8391F" letter-spacing="0.1em">INDEX TIME - run once</text>
+            <text x="36" y="43" font-family="'JetBrains Mono',monospace" font-size="10" font-weight="700" fill="#B8391F" letter-spacing="0.1em">INDEX TIME: run once</text>
             <rect x="554" y="16" width="490" height="832" rx="12" fill="#EAD8A2" stroke="#8C7A52" stroke-width="1.5" stroke-dasharray="6 4"/>
-            <text x="574" y="43" font-family="'JetBrains Mono',monospace" font-size="10" font-weight="700" fill="#6B5E47" letter-spacing="0.1em">QUERY TIME - every request</text>
+            <text x="574" y="43" font-family="'JetBrains Mono',monospace" font-size="10" font-weight="700" fill="#6B5E47" letter-spacing="0.1em">QUERY TIME: every request</text>
 
             <!-- ── LEFT COLUMN ── -->
             <!-- All nodes: x=40, w=442. Titles at x=60 (offset 20). Dividers x=60→x=462. Bullets at x=70. -->
@@ -646,7 +646,7 @@ When referencing specific information, cite the document ID (e.g. "per NCR-2024-
             <text x="60" y="250" font-family="'JetBrains Mono',monospace" font-size="12" font-weight="700" fill="#2A2117">② Token-Aware Chunking</text>
             <line x1="60" y1="258" x2="462" y2="258" stroke="#8C7A52" stroke-width="0.75"/>
             <text x="70" y="276" font-family="'Inter',sans-serif" font-size="11" fill="#6B5E47">• 512 token max chunk size (tiktoken cl100k_base)</text>
-            <text x="70" y="293" font-family="'Inter',sans-serif" font-size="11" fill="#6B5E47">• 64 token overlap - prevents sentences being cut across boundaries</text>
+            <text x="70" y="293" font-family="'Inter',sans-serif" font-size="11" fill="#6B5E47">• 64 token overlap to prevent sentences being cut across boundaries</text>
             <text x="70" y="310" font-family="'Inter',sans-serif" font-size="11" fill="#6B5E47">• Sentence-boundary aware: splits on .!? not mid-sentence</text>
             <text x="70" y="327" font-family="'Inter',sans-serif" font-size="11" fill="#6B5E47">• Output: data/chunks/ JSONL with full parent metadata preserved</text>
             <line x1="261" y1="342" x2="261" y2="364" stroke="#8C7A52" stroke-width="1.5" marker-end="url(#carr)"/>
@@ -743,7 +743,7 @@ When referencing specific information, cite the document ID (e.g. "per NCR-2024-
             <line x1="598" y1="458" x2="1024" y2="458" stroke="#8C7A52" stroke-width="0.75"/>
             <text x="598" y="476" font-family="'Inter',sans-serif" font-size="11" fill="#6B5E47">• score(d) = Σ 1/(k + rank)  where k = 60</text>
             <text x="598" y="493" font-family="'Inter',sans-serif" font-size="11" fill="#6B5E47">• Documents in both lists accumulate score from each</text>
-            <text x="598" y="510" font-family="'Inter',sans-serif" font-size="11" fill="#6B5E47">• Parameter-free - k=60 from Cormack et al. SIGIR 2009</text>
+            <text x="598" y="510" font-family="'Inter',sans-serif" font-size="11" fill="#6B5E47">• Parameter-free; k=60 from Cormack et al. SIGIR 2009</text>
             <text x="598" y="528" font-family="'JetBrains Mono',monospace" font-size="10" fill="#B8391F">→ Single merged list, top-20 passed to reranker</text>
             <line x1="811" y1="542" x2="811" y2="564" stroke="#8C7A52" stroke-width="1.5" marker-end="url(#carr)"/>
 
@@ -765,7 +765,7 @@ When referencing specific information, cite the document ID (e.g. "per NCR-2024-
             <line x1="598" y1="746" x2="1024" y2="746" stroke="#8C7A52" stroke-width="0.75"/>
             <text x="598" y="764" font-family="'Inter',sans-serif" font-size="11" fill="#6B5E47">• Receives top-5 chunks as numbered context [1]...[5]</text>
             <text x="598" y="781" font-family="'Inter',sans-serif" font-size="11" fill="#6B5E47">• System prompt: answer ONLY from context, cite doc IDs</text>
-            <text x="598" y="798" font-family="'Inter',sans-serif" font-size="11" fill="#6B5E47">• No external knowledge - keeps evaluation honest</text>
+            <text x="598" y="798" font-family="'Inter',sans-serif" font-size="11" fill="#6B5E47">• No external knowledge, keeps evaluation honest</text>
             <text x="598" y="818" font-family="'JetBrains Mono',monospace" font-size="10" fill="#B8391F">→ Grounded natural-language answer with citations</text>
           </svg>
         </div>
