@@ -188,7 +188,7 @@
           <li>Sparse retrieval using BM25</li>
           <li>Applying Reciprocal Rank Fusion (RRF) to merge both ranked lists</li>
           <li>Reranking and rescoring with Cohere Rerank v4</li>
-          <li>Generating responses with Claude Sonnet via OpenRouter</li>
+          <li>Generating responses with Llama 3.3 70B via OpenRouter</li>
           <li>Evaluating the pipeline with Hit Rate, MRR, and NDCG@5</li>
         </ul>
 
@@ -546,9 +546,9 @@ embed_query(text)       # input_type = "search_query"</code></pre>
         </p>
         <p>The top 5 reranked chunks become the context for the generation step.</p>
 
-        <h2>Generating Responses with Claude Sonnet</h2>
+        <h2>Generating Responses with Llama 3.3 70B</h2>
         <p>
-          The final step hands off to Claude Sonnet (via OpenRouter) to generate a grounded natural language answer from the top 5 chunks. The key design constraint is that Claude is explicitly instructed to answer only from the provided context, with no external knowledge and no hallucination. If the answer is not in the chunks, it says so.
+          The final step hands off to Llama 3.3 70B (via OpenRouter) to generate a grounded natural language answer from the top 5 chunks. The key design constraint is that the model is explicitly instructed to answer only from the provided context, with no external knowledge and no hallucination. If the answer is not in the chunks, it says so.
         </p>
 
 <pre><code>_SYSTEM_PROMPT = """
@@ -564,7 +564,7 @@ When referencing specific information, cite the document ID (e.g. "per NCR-2024-
 
         <h3>Why OpenRouter?</h3>
         <p>
-          OpenRouter is an API gateway that provides access to models from many providers under a single API key. This project already used an OpenRouter key for the Llama 70B generation step, so reusing it for Claude avoided adding a second API key and separate billing account.
+          OpenRouter is an API gateway that provides access to models from many providers under a single API key. This project already used an OpenRouter key for the Llama 70B synthetic data generation step, so reusing the same key for answer generation avoided adding a second API key and separate billing account.
         </p>
 
         <h2>Evaluation Harness</h2>
