@@ -562,11 +562,6 @@ When referencing specific information, cite the document ID (e.g. "per NCR-2024-
           Each chunk is numbered and labeled with its doc ID, type, and supplier before being passed to the model. This makes citation straightforward and keeps the answer traceable back to the source document, which is what makes RAG trustworthy in an enterprise context.
         </p>
 
-        <h3>Why OpenRouter?</h3>
-        <p>
-          OpenRouter is an API gateway that provides access to models from many providers under a single API key. This project already used an OpenRouter key for the Llama 70B synthetic data generation step, so reusing the same key for answer generation avoided adding a second API key and separate billing account.
-        </p>
-
         <h2>Evaluation Harness</h2>
         <p>A pipeline that "works" is not the same as a pipeline that is measurably good. The evaluation harness provides the numbers.</p>
 
